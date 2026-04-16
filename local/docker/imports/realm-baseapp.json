@@ -497,11 +497,25 @@
   "scopeMappings" : [ {
     "clientScope" : "offline_access",
     "roles" : [ "offline_access" ]
+  }, {
+    "clientScope" : "roles",
+    "roles" : [ "offline_access", "uma_authorization", "user", "default-roles-baseapp" ]
   } ],
   "clientScopeMappings" : {
+    "broker" : [ {
+      "clientScope" : "roles",
+      "roles" : [ "read-token" ]
+    } ],
+    "baseapp" : [ {
+      "clientScope" : "roles",
+      "roles" : [ "editor", "public", "admin" ]
+    } ],
     "account" : [ {
       "client" : "account-console",
       "roles" : [ "manage-account", "view-groups" ]
+    }, {
+      "clientScope" : "roles",
+      "roles" : [ "manage-account", "view-applications", "view-consent", "view-groups", "manage-account-links", "manage-consent", "delete-account", "view-profile" ]
     } ]
   },
   "clients" : [ {
@@ -764,8 +778,11 @@
     "description" : "SAML role list",
     "protocol" : "saml",
     "attributes" : {
+      "include.in.token.scope" : "true",
+      "display.on.consent.screen" : "true",
+      "gui.order" : "",
       "consent.screen.text" : "${samlRoleListScopeConsentText}",
-      "display.on.consent.screen" : "true"
+      "include.in.openid.provider.metadata" : "true"
     },
     "protocolMappers" : [ {
       "id" : "f6149506-6116-4a9c-a497-e72407c97aa6",
@@ -889,12 +906,15 @@
       "protocolMapper" : "oidc-usermodel-realm-role-mapper",
       "consentRequired" : false,
       "config" : {
-        "user.attribute" : "foo",
         "introspection.token.claim" : "true",
+        "multivalued" : "true",
+        "userinfo.token.claim" : "false",
+        "user.attribute" : "foo",
+        "id.token.claim" : "true",
+        "lightweight.claim" : "true",
         "access.token.claim" : "true",
         "claim.name" : "realm_access.roles",
-        "jsonType.label" : "String",
-        "multivalued" : "true"
+        "jsonType.label" : "String"
       }
     }, {
       "id" : "dd0d4a86-8fd8-4150-9dc6-c00d90012208",
@@ -913,12 +933,15 @@
       "protocolMapper" : "oidc-usermodel-client-role-mapper",
       "consentRequired" : false,
       "config" : {
-        "user.attribute" : "foo",
         "introspection.token.claim" : "true",
+        "multivalued" : "true",
+        "userinfo.token.claim" : "false",
+        "user.attribute" : "foo",
+        "id.token.claim" : "true",
+        "lightweight.claim" : "true",
         "access.token.claim" : "true",
         "claim.name" : "resource_access.${client_id}.roles",
-        "jsonType.label" : "String",
-        "multivalued" : "true"
+        "jsonType.label" : "String"
       }
     } ]
   }, {
@@ -1383,8 +1406,8 @@
       }
     } ]
   } ],
-  "defaultDefaultClientScopes" : [ "role_list", "saml_organization", "profile", "email", "roles", "web-origins", "acr", "basic" ],
-  "defaultOptionalClientScopes" : [ "offline_access", "address", "phone", "microprofile-jwt", "organization" ],
+  "defaultDefaultClientScopes" : [ "saml_organization", "profile", "email", "roles", "web-origins", "acr", "basic", "role_list", "microprofile-jwt" ],
+  "defaultOptionalClientScopes" : [ "offline_access", "address", "phone", "organization" ],
   "browserSecurityHeaders" : {
     "contentSecurityPolicyReportOnly" : "",
     "xContentTypeOptions" : "nosniff",
