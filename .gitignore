@@ -1,5 +1,6 @@
 ### Project ignores
-/local/docker/postgresql
+/local/docker/postgresql/
+/local/docker/exports/
 
 .gradle
 build/

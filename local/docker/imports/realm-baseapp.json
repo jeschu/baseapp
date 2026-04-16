@@ -617,7 +617,7 @@
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
-    "secret" : "**********",
+    "secret" : "gxzwQxuwQzZlLEdNZD5pK2GBpAIMrYiy",
     "redirectUris" : [ "http://localhost:8080/*" ],
     "webOrigins" : [ "" ],
     "notBefore" : 0,
@@ -632,7 +632,7 @@
     "protocol" : "openid-connect",
     "attributes" : {
       "logout.confirmation.enabled" : "false",
-      "client.secret.creation.time" : "1776285388",
+      "client.secret.creation.time" : "1776360745",
       "oauth2.jwt.authorization.grant.enabled" : "false",
       "standard.token.exchange.enabled" : "false",
       "frontchannel.logout.session.required" : "true",
@@ -1414,7 +1414,7 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-full-name-mapper", "saml-role-list-mapper", "saml-user-attribute-mapper", "oidc-usermodel-property-mapper", "oidc-address-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-user-property-mapper", "oidc-usermodel-attribute-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-usermodel-attribute-mapper", "oidc-full-name-mapper", "oidc-address-mapper", "oidc-usermodel-property-mapper", "saml-role-list-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-user-property-mapper", "saml-user-attribute-mapper" ]
       }
     }, {
       "id" : "c28ddb90-c3bb-48c8-89f4-32619309d8bc",
@@ -1430,7 +1430,7 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-full-name-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-role-list-mapper", "oidc-usermodel-attribute-mapper", "oidc-usermodel-property-mapper", "saml-user-property-mapper", "saml-user-attribute-mapper", "oidc-address-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-address-mapper", "saml-user-attribute-mapper", "oidc-usermodel-property-mapper", "saml-role-list-mapper", "oidc-full-name-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-attribute-mapper", "saml-user-property-mapper" ]
       }
     }, {
       "id" : "18f9aa27-d03a-4d06-a964-c06e7e05b3de",

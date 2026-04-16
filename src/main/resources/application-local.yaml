@@ -1,5 +1,19 @@
 spring:
 
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            user-name-attribute: 'preferred_username'
+            issuer-uri: 'http://localhost:8082/realms/baseapp'
+        registration:
+          keycloak:
+            client-id: 'baseapp'
+            client-secret: 'gxzwQxuwQzZlLEdNZD5pK2GBpAIMrYiy'
+            authorization-grant-type: 'authorization_code'
+            scope: 'openid'
+
   freemarker:
     cache: false
 
