@@ -1,3 +1,5 @@
+<#import "functions.ftlh" as fun/>
+
 <#macro form id action model method='post'>
     <form id="${id}"
           method="${method}"
@@ -36,8 +38,7 @@
         <#local l_label="${label}">
     </#if>
     <#local l_value="${.vars[model][field]!''}"/>
-    <#include "includes/l_grid.ftlh"/>
-    <div class="mb-3 ${l_grid}">
+    <div class="mb-3 ${fun.grid(grid)}">
         <#if errorMessage?hasContent>
             <div class="d-flex justify-content-between align-items-center">
                 <label for="${l_id}" class="mb-0">${l_label!''}</label>
@@ -77,9 +78,8 @@
 </#macro>
 
 <#macro region grid=0 class="">
-    <#include "includes/l_grid.ftlh"/>
     <div class="row">
-        <div class="${l_grid} ${class}">
+        <div class="${fun.grid(grid)} ${class}">
             <#nested/>
         </div>
     </div>
