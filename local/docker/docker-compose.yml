@@ -11,8 +11,9 @@ services:
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready", "-U", "keycloak" ]
       interval: 1s
-      timeout: 5s
-      retries: 10
+      timeout: 2s
+      retries: 15
+      start_period: 15s
     volumes:
       - ./postgresql:/var/lib/postgresql
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
@@ -28,6 +29,7 @@ services:
       - --import-realm
     ports:
       - "8082:8082"
+      - "8083:9000"
     restart: always
     environment:
       KC_HTTP_PORT: 8082
@@ -38,6 +40,7 @@ services:
       KC_DB_PASSWORD: keycloak
       KEYCLOAK_ADMIN: keycloak
       KEYCLOAK_ADMIN_PASSWORD: keycloak
+      KC_HEALTH_ENABLED: true
       KC_LOG_LEVEL: ALL
     volumes:
       - ./imports:/opt/keycloak/data/import
@@ -48,3 +51,9 @@ services:
       resources:
         limits:
           cpus: '4.0'
+    healthcheck:
+      test: [ "CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000; echo -e 'GET /health/ready HTTP/1.1\r\nhost: localhost\r\nConnection: close\r\n\r\n' >&3; grep 'HTTP/1.1 200 OK' <&3" ]
+      interval: 5s
+      timeout: 2s
+      retries: 6
+      start_period: 30s
