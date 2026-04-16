@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>bs.html</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+          crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.27.1/dist/bootstrap-table.min.css"
+          rel="stylesheet">
+</head>
+<body>
+<main>
+    <button type="button" class="btn btn-primary"
+            onclick="$('#toast-1').show()"
+    >Show toast #1
+    </button>
+    <button type="button" class="btn btn-primary"
+            onclick="$('#toast-2').show()"
+    >Show toast #2
+    </button>
+
+    <div class="toast-container position-static">
+        <div id="toast-1" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header text-white bg-warning">
+                <i class="bi bi-exclamation-octagon"></i>
+                <strong class="me-auto">Bootstrap</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast-1"
+                        aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-danger-subtle">
+                See? Just like this.
+            </div>
+        </div>
+
+        <div id="toast-2" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header text-white bg-danger">
+                <i class="bi bi-exclamation-octagon"></i>
+                <strong class="me-auto">Bootstrap</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast-2"
+                        aria-label="Close"></button>
+            </div>
+            <div class="toast-body bg-danger-subtle">
+                Heads up, toasts will stack automatically
+            </div>
+        </div>
+    </div>
+
+    <h1 class="visually-hidden">index.html</h1>
+    <div class="container">
+        <h2>index.html</h2>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.27.1/dist/bootstrap-table.min.js"></script>
+
+<script>
+</script>
+
+</body>
+</html>

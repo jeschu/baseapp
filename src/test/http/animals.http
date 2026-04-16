@@ -1,0 +1,8 @@
+### @name GET animals sorted by name
+#
+GET http://localhost:8081/api/animals?sort=name
+
+### @name DELETE animal
+#
+DELETE http://localhost:8081/animals/1
+Accept: application/json

@@ -1,0 +1,195 @@
+= Base App
+
+== Goal
+
+The goal of this project is to provide a basic app running in a web browser to manipulate data of a database persisting
+a business domain model. +
+My goal was to use the simplest possible frameworks/architectures, each leveraging the native technologies of the
+components used. This should result in very easily maintainable code.
+
+=== Development environment
+
+As development environment I use Docker to locally run the needed services - namely PostgreSQL and Keycloak.
+
+=== Backend
+
+To ensure the backend can be scaled as painlessly as possible, it should remain stateless.
+
+==== Spring Boot with Kotlin
+
+- Spring Boot with Kotlin
+- Gradle build system with Kotlin DSL
+- Spring Boot Data JDBC
+- Flyway Migration
+- Spring-Boot-Security with Keycloak
+- Spring-Boot-Actuator
+- Spring-Boot-DevTools
+- SpringDoc OpenAPI
+- Apache Freemarker
+- Testcontainers for testing with PostgreSQL and Keycloak
+
+I wanted to avoid using JPA. In my opinion, this architecture tends to implement entities that tend to load too many
+related objects in SQL queries. +
+By using Kotlin, it is very easy to implement lean entity classes for each query, which can be easily loaded and
+manipulated via the Spring Data repository architecture.
+
+==== Keycloak
+
+Keycloak is used for user and permissions management using JWT tokens in the backend.
+
+=== Frontend
+
+Here too, the goal is to use the leanest possible architecture. I wanted to avoid using a frontend framework such as
+Angular, React, or Vue. So no more complexity by using a frontend framework if it is not really needed.
+
+- Bootstrap for the frontend
+- Bootstrap Table for rendering dynamic tables with data fetched via a ReST API from the backend
+- Bootstrap Icons for icons in the frontend
+
+The project usees server-side rendering with Apache Freemarker templates to encapsulate the boilerplate HTML code
+to create HTML components with Bootstrap.
+
+=== Development
+
+Start with profile `local`.
+
+[NOTE]
+====
+For IntelliJ there is already a run configuration (`/.run/BaseappApplication{nbsp}[local].run.xml`) for the `local`
+profile, so you can just run the app from there.
+====
+
+- http://localhost:8080[BaseApp] (port: 8080)
+- http://localhost:8081[Spring Boot Actuator] (port: 8081)
+
+=== Docker Compose
+
+This project contains a docker-compose.yaml (`local/docker/...`) file that defines the following services:
+
+- PostgreSQL (port: 5432)
+- http://localhost:8082/admin/master/console/#/baseapp[Keycloak - realm BaseApp] (port: 8082)
+
+==== PostgreSQL
+
+The PostgreSQL database persists its data in the folder postgresql directly besides the docker-compose.yaml file.
+So you are able to delete the complete database by simply deleting the content of the postgresql folder.
+
+PostgreSQL server is configured to have different databases for the BaseApp and Keycloak.
+
+===== Initial setup of the databases `baseapp` and `keycloak`:
+
+In `docker-compose.yaml` the image `postgres:18` is used for the PostgreSQL server with its well-known environment
+parameters to configure the initial database. +
+Using these parameters the `keycloak` database is created with owner/role `keycloak` and the password `keycloak`. +
+The image allows you to execute SQL scripts at startup that are found in the containers folder
+`/docker-entrypoint-initdb.d`. This folder is linked to `local/docker/docker-entrypoint-initdb.d` in the project,
+containing the script `postgresql-init.sql`. +
+As PostgreSQL does not have the command `CREATE DATABASE IF NOT EXISTS ...`, I had to use some _tricks_ creating the
+second database for the BaseApp. +
+The extension `dblink` adds the feature to connect to a PostgreSQL and execute SQL statements there. So the script
+connects to the already created `keycloak` database and simply executes `CREATE DATABASE baseapp` there.
+If the database already exists the `duplicate_database` exeption is handled to continue the execution of the script. +
+Then the role `baseapp` is created if not exists set as owner to the `baseapp` database.
+
+===== PostgreSQL databases and users:
+
+* database `keycloak` with owner/role `keycloak` and password `keycloak`
+* database `baseapp` with owner/role `baseapp` and password `baseapp`
+
+== Resources I used to setup this project
+
+=== Bootstrap
+
+- https://getbootstrap.com/docs/5.3/getting-started/introduction/[Bootstrap 5.3 Documentation]
+
+==== Bootstrap - Table
+
+- https://bootstrap-table.com/[bootstrap-table.com]
+* https://bootstrap-table.com/docs/api/table-options/[Table Options]
+* https://bootstrap-table.com/docs/extensions/addrbar/[Table Addrbar - Address Bar Extension]
+
+==== Bootstrap - Icons
+
+- https://icons.getbootstrap.com/[Bootstrap Icons]
+
+==== more ...
+
+- https://albertoroura.com/building-a-theme-switcher-for-bootstrap/[Building a theme switcher for Bootstrap]
+
+=== Keycloak in Docker
+
+- https://keepgrowing.in/tools/keycloak-in-docker-1-how-to-run-keycloak-in-a-docker-container/[Keycloak in Docker #1 - How to run Keycloak in a Docker container
+]
+- https://keepgrowing.in/tools/keycloak-in-docker-2-how-to-import-a-keycloak-realm/[Keycloak in Docker #2 – How to import a Keycloak realm]
+- https://keepgrowing.in/tools/keycloak-in-docker-3-how-to-customise-keycloak-themes/[Keycloak in Docker #3 – How to customise Keycloak themes]
+- https://keepgrowing.in/tools/keycloak-in-docker-4-how-to-define-user-privileges-and-roles/[Keycloak in Docker #4 – How to define user privileges and roles]
+- https://keepgrowing.in/tools/keycloak-in-docker-5-how-to-export-a-realm-with-users-and-secrets/[Keycloak in Docker #5 – How to export a realm with users and secrets]
+- https://keepgrowing.in/tools/keycloak-in-docker-6-how-to-import-realms-from-a-directory/[Keycloak in Docker #6 – How to import realms from a directory]
+- https://keepgrowing.in/tools/kecloak-in-docker-7-how-to-authorize-requests-via-postman/[Keycloak in Docker #7 – How to authorize requests via Postman]
+
+=== Keycloak with Spring Boot
+
+- https://jdriven.com/blog/2023/12/Migrate-deprecated-Keycloak-adapter-with-Spring-Security-6[*Migrate deprecated Keycloak adapter with Spring Security 6*]
+- https://keepgrowing.in/java/springboot/keycloak-with-spring-boot-1-configure-spring-security-with-keycloak/[Keycloak with Spring Boot #1 – Configure Spring Security with Keycloak]
+- https://keepgrowing.in/java/springboot/keycloak-with-spring-boot-2-spring-security-instead-of-keycloak-in-tests/[Keycloak with Spring Boot #2 – Spring Security instead of Keycloak in tests]
+- https://keepgrowing.in/java/springboot/keycloak-with-spring-boot-3-how-to-authorize-requests-in-swagger-ui/[Keycloak with Spring Boot #3 – How to authorize requests in Swagger UI]
+- https://keepgrowing.in/java/springboot/keycloak-with-spring-boot-4-simple-guide-for-roles-and-authorities/[Keycloak with Spring Boot #4 – Simple guide for roles and authorities]
+
+=== Other
+
+* https://codehumsafar.wordpress.com/2018/09/24/keycloak-display-name-vs-html-display-name/[KeyCloak: Display name vs HTML Display name]
+
+=== Getting Started
+
+[NOTE]
+====
+Initially created by setting up the project with https://start.spring.io/[Spring Initializr]
+====
+
+==== Reference Documentation
+
+For further reference, please consider the following sections:
+
+* https://docs.gradle.org[Official Gradle documentation]
+* https://docs.spring.io/spring-boot/4.0.5/gradle-plugin[Spring Boot Gradle Plugin Reference Guide]
+* https://docs.spring.io/spring-boot/4.0.5/gradle-plugin/packaging-oci-image.html[Create an OCI image]
+* https://docs.spring.io/spring-boot/4.0.5/reference/testing/testcontainers.html#testing.testcontainers[Spring Boot Testcontainers support]
+* https://java.testcontainers.org/modules/databases/postgres/[Testcontainers Postgres Module Reference Guide]
+* https://docs.spring.io/spring-boot/4.0.5/reference/using/devtools.html[Spring Boot DevTools]
+* https://docs.spring.io/spring-boot/4.0.5/specification/configuration-metadata/annotation-processor.html[Spring Configuration Processor]
+* https://docs.spring.io/spring-boot/4.0.5/reference/web/servlet.html[Spring Web]
+* https://springdoc.org/[SpringDoc OpenAPI]
+* https://docs.spring.io/spring-boot/4.0.5/reference/web/servlet.html#web.servlet.spring-mvc.template-engines[Apache Freemarker]
+* https://docs.spring.io/spring-boot/4.0.5/how-to/data-initialization.html#howto.data-initialization.migration-tool.flyway[Flyway Migration]
+* https://docs.spring.io/spring-boot/4.0.5/reference/actuator/index.html[Spring Boot Actuator]
+* https://docs.spring.io/spring-boot/4.0.5/reference/actuator/metrics.html#actuator.metrics.export.prometheus[Prometheus]
+* https://java.testcontainers.org/[Testcontainers]
+* https://docs.spring.io/spring-cloud-openfeign/reference/[OpenFeign]
+
+==== Guides
+
+The following guides illustrate how to use some features concretely:
+
+* https://spring.io/guides/gs/rest-service/[Building a RESTful Web Service]
+* https://spring.io/guides/gs/serving-web-content/[Serving Web Content with Spring MVC]
+* https://spring.io/guides/tutorials/rest/[Building REST services with Spring]
+* https://github.com/springdoc/springdoc-openapi-demos/[SpringDoc OpenAPI]
+* https://spring.io/guides/gs/actuator-service/[Building a RESTful Web Service with Spring Boot Actuator]
+
+==== Additional Links
+
+These additional references should also help you:
+
+* https://scans.gradle.com#gradle[Gradle Build Scans – insights for your project's build]
+* https://github.com/spring-cloud-samples/feign-eureka[Declarative REST calls with Spring Cloud OpenFeign sample]
+
+==== Testcontainers support
+
+This project uses https://docs.spring.io/spring-boot/4.0.5/reference/features/dev-services.html#features.dev-services.testcontainers[Testcontainers at development time].
+
+Testcontainers has been configured to use the following Docker images:
+
+* https://hub.docker.com/_/postgres[`postgres:latest`]
+// TODO check how to fix testcontainers to use the same image as in the docker-compose.yaml file, so that the tests are running with the same PostgreSQL version as in production.
+
+Please review the tags of the used images and set them to the same as you're running in production.

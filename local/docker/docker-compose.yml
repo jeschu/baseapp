@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:18
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-U", "keycloak" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - ./postgresql:/var/lib/postgresql
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.6.0
+    command:
+      - start-dev
+      - --import-realm
+    ports:
+      - "8082:8082"
+    restart: always
+    environment:
+      KC_HTTP_PORT: 8082
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+      KEYCLOAK_ADMIN: keycloak
+      KEYCLOAK_ADMIN_PASSWORD: keycloak
+      KC_LOG_LEVEL: ALL
+    volumes:
+      - ./imports:/opt/keycloak/data/import
+      - ./exports:/tmp/export
+    depends_on:
+      - postgres
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'

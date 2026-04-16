@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: baseapp
+
+  config:
+    import: optional:file:.env.properties
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            user-name-attribute: 'preferred_username'
+            issuer-uri: 'http://localhost:8082/realms/baseapp'
+        registration:
+          keycloak:
+            client-id: 'baseapp'
+            client-secret: 'C6mKfayki3RyU0bw3PVgsfqLf6RgXNV3'
+            authorization-grant-type: 'authorization_code'
+            scope: 'openid'
+
+  web:
+    error:
+      whitelabel:
+        enabled: true
+      path: /error
+
+  freemarker:
+    cache: true
+    request-context-attribute: rc
+    expose-request-attributes: true
+    settings:
+      template_exception_handler: rethrow
+      #expose-session-attributes: true
+
+  flyway:
+    baseline-on-migrate: true
+
+server:
+  port: 8080
+
+management:
+  info:
+    git:
+      mode: full
+  server:
+    port: 8081
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: '*'
+
+logging:
+  level:
+    root: WARN
+    info.maila: INFO
+    org.springframework: INFO
+    org.flywaydb: TRACE
+  structured:
+    format:
+      console: logstash
+    json:
+      exclude:
+        - request_id_formatted

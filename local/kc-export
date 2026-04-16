@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+BASEDIR=$(dirname "$0")
+kc="$BASEDIR/kc"
+
+$kc export --file /tmp/export/realm-baseapp.json --realm baseapp --users same_file
