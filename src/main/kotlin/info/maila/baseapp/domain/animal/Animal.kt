@@ -11,14 +11,14 @@ data class Animal(
     @Id
     val id: Long? = null,
 
+    @Version
+    val version: Int? = null,
+
     @NotBlank
     val name: String? = null,
 
     @NotBlank
-    val type: String? = null,
-
-    @Version
-    val version: Int? = null
+    val type: String? = null
 
 ) {
 

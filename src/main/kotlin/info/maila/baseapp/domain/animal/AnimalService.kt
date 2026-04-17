@@ -12,6 +12,12 @@ class AnimalService(private val repository: AnimalRepository) {
     fun findById(id: Long): Animal = repository.findById(id)
         .orElseThrow { EntityNotFoundException(Animal::class, id) }
 
+    fun save(animal: Animal): Animal {
+        require(animal.id == null) { "id must be null for new entities" }
+        require(animal.version == null) { "version must be null for new entities" }
+        return repository.save(animal)
+    }
+
     fun update(id: Long, animal: Animal): Animal {
         require(id == animal.id) { "id missmatch" }
         requireNotNull(animal.version) { "version is null" }
@@ -21,11 +27,5 @@ class AnimalService(private val repository: AnimalRepository) {
     }
 
     fun delete(id: Long) = repository.deleteById(id)
-
-    fun save(animal: Animal): Animal {
-        require(animal.id == null) { "id must be null for new entities" }
-        require(animal.version == null) { "version must be null for new entities" }
-        return repository.save(animal)
-    }
 
 }

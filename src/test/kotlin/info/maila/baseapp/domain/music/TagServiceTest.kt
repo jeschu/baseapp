@@ -1,4 +1,4 @@
-package info.maila.baseapp.tag
+package info.maila.baseapp.domain.music
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.junit.jupiter.api.Test
@@ -17,8 +17,9 @@ class TagServiceTest {
         val extensions = TreeMap<String, Int>()
         var fileCountScanned = 0
         var fileCountWithTitle = 0
-        TagService.scanDirs("/Users/jens/Music/Music/Media.localized/Music") {
-            val extension = File(it.path).extension
+        TagService.scanDirs(musicDir) {
+            val path = requireNotNull(it.path) { "File path is null" }
+            val extension = File(path).extension
             if (extensions.containsKey(extension))
                 extensions[extension] = extensions[extension]!! + 1
             else
