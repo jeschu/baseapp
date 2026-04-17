@@ -51,13 +51,13 @@ to create HTML components with Bootstrap.
 
 === Development
 
-Start with profile `local`.
-
-[NOTE]
-====
-For IntelliJ there is already a run configuration (`/.run/BaseappApplication{nbsp}[local].run.xml`) for the `local`
-profile, so you can just run the app from there.
-====
+.run application
+[source,bash]
+----
+docker compose -f local/docker/docker-compose.yaml up
+./gradlew bootRun
+open 'http://localhost:8080'
+----
 
 - http://localhost:8080[BaseApp] (port: 8080)
 - http://localhost:8081[Spring Boot Actuator] (port: 8081)

@@ -1,0 +1,21 @@
+spring:
+  freemarker:
+    cache: true
+
+  datasource:
+    url: TODO
+    username: TODO
+    password: TODO
+
+logging:
+  structured:
+    format:
+      console: logstash
+    json:
+      exclude:
+        - request_id_formatted
+  level:
+    root: WARN
+    info.maila: INFO
+    org.springframework: INFO
+    org.flywaydb: TRACE
