@@ -39,6 +39,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
     implementation("tools.jackson.module:jackson-module-kotlin")
     implementation("net.jthink:jaudiotagger:3.0.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
     runtimeOnly("com.h2database:h2")
     runtimeOnly("io.micrometer:micrometer-registry-prometheus")
     runtimeOnly("net.logstash.logback:logstash-logback-encoder:9.0")

@@ -1,50 +1,30 @@
 package info.maila.baseapp.tag
 
-import java.io.File
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
+import org.jaudiotagger.audio.AudioFileIO
 import org.springframework.stereotype.Service
+import java.io.File
 
 @Service
 class TagService {
 
     private val scannableFileExtensions = setOf("mp3", "m4a", "m4p", "flac", "aac", "ogg", "wav", "wma", "dsf")
 
-    fun scanDirs(
-        vararg dirs: String,
-        timeout: Long = 1,
-        timeoutUnit: TimeUnit = TimeUnit.HOURS,
-        callback: TagCallback
-    ) {
-        val files = dirs
-            .map(::File)
-            .flatMap { dir ->
-                dir.walkTopDown().filter { file -> file.isFile && file.extension in scannableFileExtensions }.toList()
-            }
-
-        val executor = Executors.newFixedThreadPool(threadCount(0.75))
-        try {
-            files.forEach {
-                executor.submit {
-                    callback.scanResult(
-                        scanFile(it.absolutePath)
-                    )
-                }
-            }
-        } finally {
-            executor.shutdown()
-            executor.awaitTermination(timeout, timeoutUnit)
+    fun scanDirs(vararg dirs: String, callback: (ReadTagResult) -> Unit) {
+        dirs.forEach { dir ->
+            File(dir)
+                .walkTopDown()
+                .filter { it.isScannable() }
+                .map { it.readTag() }
+                .forEach { callback(it) }
         }
     }
 
-    fun scanFile(path: String): ScanResult {
-        return ScanResult(path)
+    private fun File.isScannable(): Boolean = isFile && extension in scannableFileExtensions
+
+    fun File.readTag(): ReadTagResult {
+        val audioFile = AudioFileIO.read(this)
+        val tag = audioFile.tag
+        return ReadTagResult(path, tag)
     }
 
-
-}
-
-@Suppress("SameParameterValue")
-private fun threadCount(factor: Double): Int = Runtime.getRuntime().availableProcessors().let { processors ->
-    maxOf(1, (processors * factor).toInt())
 }

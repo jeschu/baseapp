@@ -17,9 +17,7 @@ class TagServiceTest {
 
     @Test
     fun `scan dirs`() {
-        service.scanDirs("/Users/jens/Music/Music/Media.localized/Music") {
-            println(it)
-        }
+        service.scanDirs("/Users/jens/Music/Music/Media.localized/Music") { }
     }
 
 }
