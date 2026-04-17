@@ -17,8 +17,8 @@ class TagServiceTest {
         val extensions = TreeMap<String, Int>()
         var fileCountScanned = 0
         var fileCountWithTitle = 0
-        TagService.scanDirs(musicDir) {
-            val path = requireNotNull(it.path) { "File path is null" }
+        TagService.scanDirs(musicDir) { (track, _) ->
+            val path = requireNotNull(track.path) { "File path is null" }
             val extension = File(path).extension
             if (extensions.containsKey(extension))
                 extensions[extension] = extensions[extension]!! + 1
@@ -26,7 +26,7 @@ class TagServiceTest {
                 extensions[extension] = 1
 
             fileCountScanned++
-            if (it.title != null) fileCountWithTitle++
+            if (track.title != null) fileCountWithTitle++
 
             if ((fileCountScanned % 1_000) == 0) {
                 logger.info { "%6d files scanned ...".format(fileCountScanned) }

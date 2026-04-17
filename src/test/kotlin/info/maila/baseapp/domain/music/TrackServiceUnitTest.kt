@@ -13,15 +13,25 @@ import java.util.*
 import info.maila.baseapp.database.EntityNotFoundException
 
 class TrackServiceUnitTest {
+
     private lateinit var trackRepository: TrackRepository
+    private lateinit var trackArtworkRepository: TrackArtworkRepository
+    private lateinit var trackArtworkMetadataRepository: TrackArtworkMetadataRepository
     private lateinit var trackOverviewRepository: TrackOverviewRepository
     private lateinit var trackService: TrackService
 
     @BeforeEach
     fun setUp() {
         trackRepository = mockk()
+        trackArtworkRepository = mockk()
+        trackArtworkMetadataRepository = mockk()
         trackOverviewRepository = mockk()
-        trackService = TrackService(trackRepository, trackOverviewRepository)
+        trackService = TrackService(
+            trackRepository,
+            trackArtworkRepository,
+            trackArtworkMetadataRepository,
+            trackOverviewRepository
+        )
     }
 
     @Test

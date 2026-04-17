@@ -12,7 +12,7 @@ data class Animal(
     val id: Long? = null,
 
     @Version
-    val version: Int? = null,
+    val dbVersion: Int? = null,
 
     @NotBlank
     val name: String? = null,
@@ -23,6 +23,6 @@ data class Animal(
 ) {
 
     infix fun updateWith(other: Animal): Animal =
-        copy(name = other.name, type = other.type, version = other.version)
+        copy(name = other.name, type = other.type, dbVersion = other.dbVersion)
 
 }

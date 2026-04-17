@@ -189,8 +189,7 @@ data class Track(
     val work: String? = null,
     val workType: String? = null,
     val year: String? = null,
-    val version: String? = null,
-    val image: ByteArray? = null
+    val version: String? = null
 ) {
 
     override fun toString() = "%s(id=%s, path='%s')"
@@ -380,7 +379,6 @@ data class Track(
         if (workType != other.workType) return false
         if (year != other.year) return false
         if (version != other.version) return false
-        if (!image.contentEquals(other.image)) return false
 
         return true
     }
@@ -564,7 +562,6 @@ data class Track(
         result = 31 * result + (workType?.hashCode() ?: 0)
         result = 31 * result + (year?.hashCode() ?: 0)
         result = 31 * result + (version?.hashCode() ?: 0)
-        result = 31 * result + (image?.contentHashCode() ?: 0)
         return result
     }
 

@@ -14,13 +14,13 @@ class AnimalService(private val repository: AnimalRepository) {
 
     fun save(animal: Animal): Animal {
         require(animal.id == null) { "id must be null for new entities" }
-        require(animal.version == null) { "version must be null for new entities" }
+        require(animal.dbVersion == null) { "version must be null for new entities" }
         return repository.save(animal)
     }
 
     fun update(id: Long, animal: Animal): Animal {
         require(id == animal.id) { "id missmatch" }
-        requireNotNull(animal.version) { "version is null" }
+        requireNotNull(animal.dbVersion) { "version is null" }
         return findById(id)
             .updateWith(animal)
             .let(repository::save)

@@ -3,6 +3,7 @@ package info.maila.baseapp.config.security
 import info.maila.baseapp.config.security.Role.Companion.allRoles
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -11,6 +12,7 @@ import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMap
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority
 import org.springframework.security.web.SecurityFilterChain
 
+@Profile("!no-security")
 @Configuration
 @EnableWebSecurity
 class SpringSecurityConfiguration {
@@ -21,6 +23,7 @@ class SpringSecurityConfiguration {
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers("/**").hasAnyAuthority(*allRoles())
+                    .requestMatchers("/api/**").permitAll() // TODO
                     .requestMatchers("/public/**").permitAll()
                     .anyRequest().permitAll()
             }
@@ -40,7 +43,8 @@ class SpringSecurityConfiguration {
                 val claims = authority.idToken.claims
 
                 val realmAccess: Map<String, Any>? = claims.getMapByKey("realm_access")
-                val realmAccessRoles: List<String>? = realmAccess?.getListByKey("roles")?.map { "realm.$it" }
+                val realmAccessRoles: List<String>? =
+                    realmAccess?.getListByKey("roles")?.map { "realm.$it" }
 
                 val resourceAccess: Map<String, Any>? = claims.getMapByKey("resource_access")
                 val resourceAccessRoles: List<String>? = resourceAccess?.keys
@@ -65,5 +69,7 @@ class SpringSecurityConfiguration {
         this?.get(key) as? Map<String, Any>
 
     @Suppress("UNCHECKED_CAST")
-    private infix fun Map<String, Any>?.getListByKey(key: String): List<String>? = this?.get(key) as? List<String>
+    private infix fun Map<String, Any>?.getListByKey(key: String): List<String>? =
+        this?.get(key) as? List<String>
+
 }

@@ -1,0 +1,11 @@
+### @name track overview
+GET http://localhost:8080/api/tracks?page=1&pageSize=10
+
+### @name track
+GET http://localhost:8080/api/tracks/186
+
+### @name track artworks metadata
+GET http://localhost:8080/api/tracks/186/artworks
+
+### @name track artworks metadata index=0
+GET http://localhost:8080/api/tracks/186/artworks/1

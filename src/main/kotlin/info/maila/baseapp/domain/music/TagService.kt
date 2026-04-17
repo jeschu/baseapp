@@ -180,17 +180,18 @@ import org.jaudiotagger.tag.FieldKey.WORK
 import org.jaudiotagger.tag.FieldKey.WORK_TYPE
 import org.jaudiotagger.tag.FieldKey.YEAR
 import org.jaudiotagger.tag.KeyNotFoundException
+import org.jaudiotagger.tag.images.Artwork
 import java.io.File
 
 object TagService {
 
     private val logger = KotlinLogging.logger { }
 
-    fun scanDirs(vararg dirs: String, callback: (Track) -> Unit) {
+    fun scanDirs(vararg dirs: String, callback: (Pair<Track, List<Artwork>>) -> Unit) {
         dirs.forEach { dir -> scanDir(dir, callback) }
     }
 
-    fun scanDir(dir: String, callback: (Track) -> Unit) {
+    fun scanDir(dir: String, callback: (Pair<Track, List<Artwork>>) -> Unit) {
         File(dir)
             .also { logger.debug { "scanDir('$dir')" } }
             .walkTopDown()
@@ -199,21 +200,19 @@ object TagService {
             .forEach { callback(it) }
     }
 
-    fun File.readTag(): Track {
-        val audioFile = AudioFileIO.read(this)
-        return createTrack(path, audioFile)
-    }
+    fun File.readTag(): Pair<Track, List<Artwork>> = createTrack(path, AudioFileIO.read(this))
 
     private val scannableFileExtensions =
         setOf("mp3", "m4a", "m4p", "flac", "aac", "ogg", "wav", "wma", "dsf")
 
     private fun File.isScannable(): Boolean = isFile && extension in scannableFileExtensions
 
-    private fun createTrack(path: String, audioFile: AudioFile): Track {
+    private fun createTrack(path: String, audioFile: AudioFile): Pair<Track, List<Artwork>> {
 
         fun AudioFile.getTag(key: FieldKey) =
             try {
-                tag?.getFirst(key)
+                val artworks: List<Artwork> = this.tag?.artworkList?.filterNotNull() ?: emptyList()
+                tag?.getAll(key)?.toSet()?.joinToString("\n")
             } catch (_: KeyNotFoundException) {
                 null
             }
@@ -403,7 +402,9 @@ object TagService {
             track = track.copy(title = file.nameWithoutExtension)
         }
 
-        return track
+        val artworks = audioFile.tag?.artworkList?.filterNotNull() ?: emptyList()
+
+        return Pair(track, artworks)
     }
 
 
