@@ -8,7 +8,8 @@ CREATE SEQUENCE IF NOT EXISTS baseapp.animal_id_seq
 CREATE TABLE IF NOT EXISTS baseapp.animal
 (
     id      INT  NOT NULL DEFAULT nextval('baseapp.animal_id_seq') PRIMARY KEY,
+    db_version INT  NOT NULL DEFAULT 1,
+
     type    TEXT NOT NULL,
-    name    TEXT NOT NULL,
-    version INT  NOT NULL DEFAULT 1
+    name    TEXT NOT NULL
 );

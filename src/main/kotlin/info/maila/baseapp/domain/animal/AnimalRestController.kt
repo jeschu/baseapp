@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController
 class AnimalRestController(private val service: AnimalService) {
 
     @GetMapping
-    operator fun get(pageable: Pageable) = service.findAll(pageable)
+    fun overview(pageable: Pageable) = service.findAll(pageable)
 
 }

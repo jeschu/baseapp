@@ -14,6 +14,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <@navitem href="/" label="Home"/>
                 <@navitem href="/animals" label="Animals"/>
+                <@navitem href="/tracks" label="Music"/>
             </ul>
             <div class="d-flex" role="switch">
                 <#include 'theme-switch.ftlh'/>
