@@ -10,7 +10,8 @@ data class TablePageable(
     val offset: Long? = null,
     val limit: Int? = null,
     val sort: String? = null,
-    val order: String? = null
+    val order: String? = null,
+    val search: String? = null
 ) {
 
     fun pageable(): Pageable {

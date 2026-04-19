@@ -4,14 +4,21 @@ idField='id'
 url=''
 dataField='content'
 pagination=true
+sidePagination='server'
 pageNumber=1
 pageSize=5
 pageList='5,10,50,all'
 showColumns=true
 showColumnsToggleAll=true
+showColumnsSearch=true
+search=true
+searchable=true
+searchTimeOut=500
 paginationPreText=''
 paginationNextText=''
 toolbar=false
+addrbar=true
+addrbarPrefix=''
 >
     <#assign l_url="${url?empty_to_null!('/api'+rc.getRequestUri())}"/>
     <table id="${id}"
@@ -20,11 +27,16 @@ toolbar=false
            data-data-field="${dataField}"
            data-url="${l_url}"
            data-pagination="${pagination?cn}"
+           data-side-pagination="${sidePagination}"
            data-page-list="${pageList}"
            data-page-size="${pageSize}"
            data-page-number="${pageNumber}"
            data-show-columns="${showColumns?cn}"
            data-show-columns-toggle-all="${showColumnsToggleAll?cn}"
+           data-show-columns-search="${showColumnsSearch?cn}"
+           data-search="${search?cn}"
+           data-searchable="${searchable?cn}"
+           data-search-time-out="${searchTimeOut}"
             <#if paginationPreText?has_content>
                 data-pagination-pre-text="${paginationPreText}"
             </#if>
@@ -34,6 +46,8 @@ toolbar=false
             <#if toolbar>
                 data-toolbar="#${id}-toolbar"
             </#if>
+           data-addrbar="${addrbar?cn}"
+           <#--data-addrbar-prefix="${addrbarPrefix!id}"-->
     >
         <thead>
         <tr>
@@ -44,9 +58,22 @@ toolbar=false
 
 </#macro>
 
-<#macro col field label='' sort=false>
+<#macro col
+field
+label=''
+sort=false
+switchable=true
+searchable=true
+>
     <#assign l_label="${label?empty_to_null!field}"/>
-    <th data-field="${field}" data-sortable="${sort?cn}">${l_label}</th>
+    <th
+            data-field="${field}"
+            data-sortable="${sort?cn}"
+            data-switchable="${switchable?cn}"
+            data-searchable="${searchable?cn}"
+    >
+        ${l_label}
+    </th>
 </#macro>
 
 <#macro actions idField='id' showEdit=true showDelete=true>
