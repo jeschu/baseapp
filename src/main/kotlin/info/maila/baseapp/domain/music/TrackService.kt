@@ -20,7 +20,7 @@ class TrackService(
     fun findTrackById(id: Long): Track = trackRepository.findById(id)
         .orElseThrow { EntityNotFoundException(Track::class, id) }
 
-    fun findAll(pageable: TablePageable) = trackOverviewRepository.search(pageable)
+    fun findAll(pageable: TablePageable) = trackOverviewRepository.findAll(pageable)
 
     fun save(track: Track): Track {
         require(track.id == null) { "id must be null for new entities" }

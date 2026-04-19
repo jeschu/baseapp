@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class TrackRestController(private val service: TrackService) {
 
     @GetMapping
-    fun overview(pageable: TablePageable): Page<TrackOverview> {
-        return service.findAll(pageable)
-    }
+    fun overview(pageable: TablePageable): Page<TrackOverview> = service.findAll(pageable)
 
     @GetMapping(path = ["/{trackId}"])
     fun track(@PathVariable trackId: Long) = service.findTrackById(trackId)
