@@ -1,6 +1,7 @@
 package info.maila.baseapp.domain.music
 
-import org.springframework.data.domain.Pageable
+import info.maila.baseapp.common.rest.TablePageable
+import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RestController
 class TrackRestController(private val service: TrackService) {
 
     @GetMapping
-    fun overview(pageable: Pageable) = service.findAll(pageable)
+    fun overview(pageable: TablePageable): Page<TrackOverview> {
+        return service.findAll(pageable)
+    }
 
     @GetMapping(path = ["/{trackId}"])
     fun track(@PathVariable trackId: Long) = service.findTrackById(trackId)

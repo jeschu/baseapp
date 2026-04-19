@@ -1,9 +1,9 @@
 package info.maila.baseapp.domain.music
 
+import info.maila.baseapp.common.rest.TablePageable
 import info.maila.baseapp.database.EntityNotFoundException
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jaudiotagger.tag.images.Artwork
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -20,7 +20,7 @@ class TrackService(
     fun findTrackById(id: Long): Track = trackRepository.findById(id)
         .orElseThrow { EntityNotFoundException(Track::class, id) }
 
-    fun findAll(pageable: Pageable) = trackOverviewRepository.findAll(pageable)
+    fun findAll(pageable: TablePageable) = trackOverviewRepository.findAll(pageable)
 
     fun save(track: Track): Track {
         require(track.id == null) { "id must be null for new entities" }

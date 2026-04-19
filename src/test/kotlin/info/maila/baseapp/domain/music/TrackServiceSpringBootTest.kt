@@ -1,5 +1,6 @@
 package info.maila.baseapp.domain.music
 
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -19,7 +20,7 @@ class TrackServiceSpringBootTest {
     lateinit var trackOverviewRepository: TrackOverviewRepository
 
     @Test
-    //@Disabled
+    @Disabled
     fun `scan dir for music files and insert them into database`() {
         val result = trackService.saveDirs(musicDir)
     }

@@ -68,7 +68,6 @@ data class TrackOverview(
     val trackTotal: String? = null,
     val year: String? = null,
     val version: String? = null,
-    val image: ByteArray? = null,
     @Version
     val dbVersion: Int? = null
 ) {
@@ -140,7 +139,6 @@ data class TrackOverview(
         if (trackTotal != other.trackTotal) return false
         if (year != other.year) return false
         if (version != other.version) return false
-        if (!image.contentEquals(other.image)) return false
 
         return true
     }
@@ -204,7 +202,6 @@ data class TrackOverview(
         result = 31 * result + (trackTotal?.hashCode() ?: 0)
         result = 31 * result + (year?.hashCode() ?: 0)
         result = 31 * result + (version?.hashCode() ?: 0)
-        result = 31 * result + (image?.contentHashCode() ?: 0)
         return result
     }
 

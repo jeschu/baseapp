@@ -16,7 +16,7 @@ class AnimalController(private val service: AnimalService) {
     private val logger = KotlinLogging.logger { }
 
     @GetMapping
-    fun get(): String = "animals-overview"
+    fun overview(): String = "animals-overview"
 
     @GetMapping(path = ["/{id}"])
     fun edit(
