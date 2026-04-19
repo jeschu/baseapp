@@ -5,6 +5,6 @@ import org.springframework.data.domain.Page
 
 interface TableRequestRepositoryCustom<T : Any, ID : Any> {
 
-    fun findAll(rq: TablePageable): Page<T>
+    fun findAllCustom(rq: TablePageable): Page<T>
 
 }

@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.data.domain.PageImpl
-import org.springframework.data.domain.PageRequest
 import java.util.*
 import info.maila.baseapp.database.EntityNotFoundException
+import info.maila.baseapp.common.rest.TablePageable
 
 class TrackServiceUnitTest {
 
@@ -52,9 +52,9 @@ class TrackServiceUnitTest {
 
     @Test
     fun `findAll delegates to trackOverviewRepository`() {
-        val pageable = PageRequest.of(0, 10)
+        val pageable = TablePageable(offset = 0, limit = 10)
         val overview = TrackOverview(id = 1L, path = "foo.mp3")
-        every { trackOverviewRepository.findAll(pageable) } returns PageImpl(listOf(overview))
+        every { trackOverviewRepository.findAllCustom(pageable) } returns PageImpl(listOf(overview))
         val result = trackService.findAll(pageable)
         assertEquals(1, result.totalElements)
         assertEquals(overview, result.content[0])
