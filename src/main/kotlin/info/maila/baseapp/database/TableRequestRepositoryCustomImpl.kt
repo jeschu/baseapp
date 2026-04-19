@@ -3,10 +3,8 @@ package info.maila.baseapp.database
 import info.maila.baseapp.common.rest.TablePageable
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
-import org.springframework.data.repository.NoRepositoryBean
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Component
-import org.springframework.stereotype.Repository
 
 @Component
 class TableRequestRepositoryCustomImpl<T : Any, ID : Any>(

@@ -2,8 +2,6 @@ package info.maila.baseapp.database
 
 import info.maila.baseapp.common.rest.TablePageable
 import org.springframework.data.domain.Page
-import org.springframework.data.repository.NoRepositoryBean
-import org.springframework.data.repository.PagingAndSortingRepository
 
 interface TableRequestRepositoryCustom<T : Any, ID : Any> {
 
