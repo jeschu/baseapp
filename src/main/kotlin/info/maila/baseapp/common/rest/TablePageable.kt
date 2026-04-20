@@ -11,8 +11,15 @@ data class TablePageable(
     val limit: Int? = null,
     val sort: String? = null,
     val order: String? = null,
-    val search: String? = null
+    val search: String? = null,
+    val visibleFields: List<String>? = null,
 ) {
+
+    val fields: List<String> = visibleFields
+        ?.filterNot { it.matches(FILTER_VISIBLE_FIELDS_REGEX) }
+        ?: emptyList()
+
+    val actionsVisible = visibleFields?.contains(FILTER_VISIBLE_FIELDS_ACTIONS) ?: false
 
     fun pageable(): Pageable {
         val pageSize: Int = max(1, min(limit ?: LIMIT_DEFAULT, LIMIT_MAX))
@@ -29,6 +36,8 @@ data class TablePageable(
     companion object {
         private const val LIMIT_DEFAULT = 20
         private const val LIMIT_MAX = 100
+        private val FILTER_VISIBLE_FIELDS_REGEX = Regex("\\[_.*_]")
+        private const val FILTER_VISIBLE_FIELDS_ACTIONS = "[_actions_]"
     }
 
 }

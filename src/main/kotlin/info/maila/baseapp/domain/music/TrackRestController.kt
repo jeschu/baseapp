@@ -1,9 +1,9 @@
 package info.maila.baseapp.domain.music
 
+import info.maila.baseapp.common.rest.TablePage
 import info.maila.baseapp.common.rest.TablePageable
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
-import org.springframework.data.domain.Page
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,13 +20,16 @@ class TrackRestController(private val service: TrackService) {
     fun overview(
         pageable: TablePageable,
         rq: HttpServletRequest
-    ): Page<TrackOverview> {
+    ): TablePage<TrackOverview> {
         logger.trace {
             val queryStr = rq.queryString
                 ?.let { URLDecoder.decode(it, Charsets.UTF_8) }
                 ?.let { "?$it" } ?: ""
             "$pageable - ${rq.requestURI}?$queryStr"
         }
+        logger.trace { "pageable=$pageable" }
+        logger.trace { "pageable.fields=${pageable.fields}" }
+        logger.trace { "pageable.actionsVisible=${pageable.actionsVisible}" }
         return service.findAll(pageable)
     }
 

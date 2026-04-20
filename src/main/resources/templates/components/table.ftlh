@@ -2,12 +2,13 @@
 id
 idField='id'
 url=''
-dataField='content'
+dataField='rows'
 pagination=true
 sidePagination='server'
 pageNumber=1
 pageSize=5
-pageList='5,10,50,all'
+pageList='[5,10,50,100,all]'
+showExtendedPagination=true
 showColumns=true
 showColumnsToggleAll=true
 showColumnsSearch=true
@@ -19,23 +20,26 @@ paginationNextText=''
 toolbar=false
 addrbar=true
 addrbarPrefix=''
+rememberOrder=true
 >
-    <#assign l_url="${url?empty_to_null!('/api'+rc.getRequestUri())}"/>
+    <#assign l_url = "${url?empty_to_null!('/api'+rc.getRequestUri())}"/>
+    <#assign dataAjax = 'dataAjax_' + statics['java.util.UUID'].randomUUID()?replace('-', '')/>
     <table id="${id}"
            data-id-field="${idField}"
            data-toggle="table"
            data-data-field="${dataField}"
            data-url="${l_url}"
-           data-pagination="${pagination?cn}"
+           data-pagination="${pagination?c}"
            data-side-pagination="${sidePagination}"
            data-page-list="${pageList}"
+           data-show-extended-pagination="${showExtendedPagination?c}"
            data-page-size="${pageSize}"
            data-page-number="${pageNumber}"
            data-show-columns="${showColumns?cn}"
-           data-show-columns-toggle-all="${showColumnsToggleAll?cn}"
-           data-show-columns-search="${showColumnsSearch?cn}"
-           data-search="${search?cn}"
-           data-searchable="${searchable?cn}"
+           data-show-columns-toggle-all="${showColumnsToggleAll?c}"
+           data-show-columns-search="${showColumnsSearch?c}"
+           data-search="${search?c}"
+           data-searchable="${searchable?c}"
            data-search-time-out="${searchTimeOut}"
             <#if paginationPreText?has_content>
                 data-pagination-pre-text="${paginationPreText}"
@@ -46,8 +50,10 @@ addrbarPrefix=''
             <#if toolbar>
                 data-toolbar="#${id}-toolbar"
             </#if>
-           data-addrbar="${addrbar?cn}"
-           <#--data-addrbar-prefix="${addrbarPrefix!id}"-->
+           data-addrbar="${addrbar?c}"
+           data-addrbar-prefix="${addrbarPrefix!id}"
+           data-ajax="${dataAjax}"
+           data-remember-order="${rememberOrder?c}"
     >
         <thead>
         <tr>
@@ -56,6 +62,21 @@ addrbarPrefix=''
         </thead>
     </table>
 
+    <script>
+        window.${dataAjax} = (ajaxConfig) => {
+            let table = $("#${id}");
+            let visibleFields = table.bootstrapTable('getVisibleColumns').map(it => it.field).join(',');
+            ajaxConfig.data = {
+                offset: ajaxConfig.data.offset,
+                limit: ajaxConfig.data.limit,
+                sort: ajaxConfig.data.sort,
+                order: ajaxConfig.data.order,
+                search: ajaxConfig.data.search,
+                visibleFields
+            };
+            $.ajax(ajaxConfig);
+        }
+    </script>
 </#macro>
 
 <#macro col
@@ -77,9 +98,10 @@ searchable=true
 </#macro>
 
 <#macro actions idField='id' showEdit=true showDelete=true>
-    <th data-formatter="actionsFormatter"></th>
+    <th data-formatter="actionsFormatter" data-field="[_actions_]"></th>
     <script>
         <#--noinspection JSUnusedLocalSymbols-->
+
         function actionsFormatter(value, row, index) {
             const id = row["${idField}"];
             const editUrl = '${rc.getRequestUri()}/' + id;

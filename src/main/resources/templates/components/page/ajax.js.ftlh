@@ -6,6 +6,7 @@
     }
 
     <#--noinspection JSUnusedLocalSymbols-->
+
     function handleAjaxSuccess(data, textStatus, jqXHR) {
         if (data.success) {
             if (data.location) {
@@ -29,4 +30,12 @@
             success: handleAjaxSuccess,
         });
     }
+
+    window.tableAjaxOptions = {
+        beforeSend(jqXHR, url) {
+            console.log("jqXHR", jqXHR);
+            console.log("url", url);
+        }
+    }
+
 </script>
