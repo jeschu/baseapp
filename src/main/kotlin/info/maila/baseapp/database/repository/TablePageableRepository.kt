@@ -1,13 +1,11 @@
-package info.maila.baseapp.database
+package info.maila.baseapp.database.repository
 
 import info.maila.baseapp.common.rest.TablePage
 import info.maila.baseapp.common.rest.TablePageable
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate
-import org.springframework.data.jdbc.core.convert.DataAccessStrategy
 import org.springframework.data.relational.core.query.Criteria
 import org.springframework.data.relational.core.query.Query
-import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Component
 import kotlin.reflect.KClass
 import kotlin.time.measureTimedValue
@@ -21,8 +19,7 @@ interface TablePageableRepository<T : Any> {
 @Component
 class TablePageableRepositoryImpl<T : Any>(
     private val jdbcAggregateTemplate: JdbcAggregateTemplate,
-    private val dataAccessStrategy: DataAccessStrategy,
-    private val jdbcTemplate: JdbcTemplate
+    private val entityFieldCache: EntityFieldCache
 ) :
     TablePageableRepository<T> {
 
@@ -48,18 +45,43 @@ class TablePageableRepositoryImpl<T : Any>(
             jdbcAggregateTemplate.count(entityClass.java)
         }
 
-        val page = TablePage(entities.toList(), total, totalNonFiltered, entitiesRuntime, totalRuntime, totalNonFilteredRuntime)
+        val page = TablePage(
+            entities.toList(),
+            total,
+            totalNonFiltered,
+            entitiesRuntime,
+            totalRuntime,
+            totalNonFilteredRuntime
+        )
         logger.debug { "findAll<${entityClass.simpleName}>($pageable): ${query.debugString()} -> $page" }
         return page
 
     }
 
     private fun buildCriteria(pageable: TablePageable, entityClass: KClass<T>): Criteria {
-        val criteria = Criteria.empty() //.where("id").isNotNull
+        var criteria = Criteria.empty() //.where("id").isNotNull
+        val search = pageable.search
+        if (search != null) {
+            val isNumber = search.isNumber()
+            pageable.fields.forEach { field ->
+                val entityField = entityFieldCache.get(entityClass, field)
+                if (entityField.isString) {
+                    criteria = criteria.or(entityField.column).like("%$search%")
+                }
+            }
+        }
         return criteria
     }
 
 }
+
+private fun String.isNumber() =
+    try {
+        toDouble()
+        true
+    } catch (_: NumberFormatException) {
+        false
+    }
 
 private fun Query.debugString(): String =
     listOf(

@@ -8,7 +8,7 @@ class TablePageable(
     limit: Int? = null,
     sort: String? = null,
     val order: String? = null,
-    val search: String? = null,
+    search: String? = null,
     visibleFields: List<String>? = null,
 ) {
 
@@ -18,6 +18,7 @@ class TablePageable(
         val direction = if ("desc".equals(order, true)) Sort.Direction.DESC else Sort.Direction.ASC
         Sort.by(direction, it)
     }
+    val search: String? = search?.trim()?.takeIf { it.isNotEmpty() }
     val fields: List<String> = visibleFields
         ?.filterNot { it.matches(FILTER_VISIBLE_FIELDS_REGEX) }
         ?: emptyList()
