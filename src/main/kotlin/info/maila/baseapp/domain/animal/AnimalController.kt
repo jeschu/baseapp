@@ -22,15 +22,13 @@ class AnimalController(private val service: AnimalService) {
     fun edit(
         @PathVariable id: Long, model: Model
     ): String {
-        val animal: Animal = service.findById(id)
-        model.addAttribute("animal", animal)
+        model.addAttribute(service.findById(id))
         return "animals-edit"
     }
 
     @GetMapping(path = ["/new"])
     fun create(model: Model): String {
-        model.addAttribute("animal", Animal())
-        logger.debug { "model: $model" }
+        model.addAttribute(Animal())
         return "animals-edit"
     }
 

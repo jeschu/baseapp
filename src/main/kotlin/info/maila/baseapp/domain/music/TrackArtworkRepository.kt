@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface TrackArtworkRepository : CrudRepository<TrackArtwork, Long> {
 
-    fun findByTrackIdAndDbOrder(trackId: Long, dbOrder: Int): List<TrackArtwork>
+    fun findByTrackIdAndDbOrder(trackId: Long, dbOrder: Int): TrackArtwork
 
 }

@@ -63,4 +63,16 @@ data class TrackArtwork(
         return result
     }
 
+    override fun toString(): String {
+        return "TrackArtwork(" +
+                "id=$id, " +
+                "trackId=$trackId, " +
+                "dbOrder=$dbOrder, " +
+                "mimeType=$mimeType, " +
+                "height=$height, " +
+                "width=$width, " +
+                "binaryData=${binaryData?.size ?: 0} bytes" +
+                ")"
+    }
+
 }

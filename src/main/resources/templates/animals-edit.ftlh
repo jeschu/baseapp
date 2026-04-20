@@ -1,5 +1,3 @@
-<#import "components/page.ftlh" as p>
-<#import "components/form.ftlh" as f>
 <#if animal.id?has_content>
     <#assign title="Animal #${animal.id?c} - ${animal.name!'?'}"/>
 <#else>

@@ -22,7 +22,7 @@ addrbar=true
 addrbarPrefix=''
 rememberOrder=true
 >
-    <#assign l_url = "${url?empty_to_null!('/api'+rc.getRequestUri())}"/>
+    <#assign l_url = "${url?empty_to_null!('/api' + rc.getRequestUri())}"/>
     <#assign dataAjax = 'dataAjax_' + statics['java.util.UUID'].randomUUID()?replace('-', '')/>
     <table id="${id}"
            data-id-field="${idField}"
@@ -97,20 +97,19 @@ searchable=true
     </th>
 </#macro>
 
-<#macro actions idField='id' showEdit=true showDelete=true>
+<#macro actions idField='id' showEdit=true showDelete=true editIcon='pencil' deleteIcon='trash'>
     <th data-formatter="actionsFormatter" data-field="[_actions_]"></th>
     <script>
         <#--noinspection JSUnusedLocalSymbols-->
-
         function actionsFormatter(value, row, index) {
             const id = row["${idField}"];
             const editUrl = '${rc.getRequestUri()}/' + id;
             return [
                 <#if showEdit>
-                '<a class="me-1" role="button" href="' + editUrl + '" title="Edit"><i class="bi bi-pencil"></i></a>',
+                '<a class="me-1" role="button" href="' + editUrl + '" title="Edit"><i class="bi bi-${editIcon}"></i></a>',
                 </#if>
-                <#if showEdit>
-                '<a class="me-1" role="button" href="#" onclick="ajaxSend(\'DELETE\', \'' + editUrl + '\')" title="Delete"><i class="bi bi-trash"></i></a>',
+                <#if showDelete>
+                '<a class="me-1" role="button" href="#" onclick="ajaxSend(\'DELETE\', \'' + editUrl + '\')" title="Delete"><i class="bi bi-${deleteIcon}"></i></a>',
                 </#if>
             ].join('')
         }

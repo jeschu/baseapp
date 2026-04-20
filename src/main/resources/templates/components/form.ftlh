@@ -1,5 +1,3 @@
-<#import "functions.ftlh" as fun/>
-
 <#macro form id action model method='post'>
     <form id="${id}"
           method="${method}"
@@ -77,7 +75,7 @@
     </div>
 </#macro>
 
-<#macro region grid=0 class="">
+<#macro region grid=0 class=''>
     <div class="row">
         <div class="${fun.grid(grid)} ${class}">
             <#nested/>

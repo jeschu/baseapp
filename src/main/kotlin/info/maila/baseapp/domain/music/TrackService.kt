@@ -1,6 +1,6 @@
 package info.maila.baseapp.domain.music
 
-import info.maila.baseapp.common.rest.TablePageable
+import info.maila.baseapp.common.model.TablePageable
 import info.maila.baseapp.database.EntityNotFoundException
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jaudiotagger.tag.images.Artwork
@@ -22,22 +22,6 @@ class TrackService(
 
     fun findAll(pageable: TablePageable) = trackOverviewRepository
         .findAll(pageable, TrackOverview::class)
-
-    fun save(track: Track): Track {
-        require(track.id == null) { "id must be null for new entities" }
-        require(track.dbVersion == null) { "dbVersion must be null for new entities" }
-        return trackRepository.save(track)
-    }
-
-    fun update(id: Long, track: Track): Track {
-        require(id == track.id) { "id missmatch" }
-        requireNotNull(track.dbVersion) { "dbVersion is null" }
-        val existing = findTrackById(id)
-        // TODO: Es gibt keine updateWith-Methode, daher wird das Objekt direkt gespeichert
-        return trackRepository.save(track)
-    }
-
-    fun delete(id: Long) = trackRepository.deleteById(id)
 
     @Transactional
     fun saveDirs(vararg dirs: String): SaveDirsResult {

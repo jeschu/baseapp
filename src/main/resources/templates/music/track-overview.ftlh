@@ -1,6 +1,3 @@
-<#import "../components/page.ftlh" as p>
-<#import "../components/table.ftlh" as t>
-<#import "../components/button.ftlh" as b>
 <@p.page title="Music">
 
     <@t.toolbar id="music">
@@ -11,6 +8,6 @@
         <@t.col field="title" sort=true label="Title"/>
         <@t.col field="album" label="Album"/>
         <@t.col field="artist" label="Artist"/>
-        <@t.actions/>
+        <@t.actions editIcon="info-circle-fill" showDelete=false/>
     </@t.table>
 </@p.page>

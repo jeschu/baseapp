@@ -1,13 +1,13 @@
 package info.maila.baseapp.domain.animal
 
+import info.maila.baseapp.common.model.TablePageable
 import info.maila.baseapp.database.EntityNotFoundException
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
 class AnimalService(private val repository: AnimalRepository) {
 
-    fun findAll(pageable: Pageable) = repository.findAll(pageable)
+    fun findAll(pageable: TablePageable) = repository.findAll(pageable, Animal::class)
 
     fun findById(id: Long): Animal = repository.findById(id)
         .orElseThrow { EntityNotFoundException(Animal::class, id) }

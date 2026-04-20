@@ -1,4 +1,3 @@
-<#import '../components/page.ftlh' as p>
 <#if status?has_content><#assign msg>${status?c} - ${message!''}</#assign></#if>
 <@p.page title="${msg}">
     <h1>${msg!'Da ist was schiefgelaufen!'}</h1>

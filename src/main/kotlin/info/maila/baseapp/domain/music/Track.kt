@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotNull
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.Version
 import org.springframework.data.relational.core.mapping.Table
-import java.util.*
 
 @Table(name = "track", schema = "baseapp")
 data class Track(
@@ -191,9 +190,6 @@ data class Track(
     val year: String? = null,
     val version: String? = null
 ) {
-
-    override fun toString() = "%s(id=%s, path='%s')"
-        .format(Track::class.simpleName, Objects.toString(id, "-"), path)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

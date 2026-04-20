@@ -1,4 +1,4 @@
-package info.maila.baseapp.common.rest
+package info.maila.baseapp.common.model
 
 import org.springframework.data.domain.Sort
 import kotlin.math.min

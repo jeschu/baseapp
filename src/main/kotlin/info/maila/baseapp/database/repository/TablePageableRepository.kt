@@ -1,7 +1,7 @@
 package info.maila.baseapp.database.repository
 
-import info.maila.baseapp.common.rest.TablePage
-import info.maila.baseapp.common.rest.TablePageable
+import info.maila.baseapp.common.model.TablePage
+import info.maila.baseapp.common.model.TablePageable
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.data.domain.Sort
 import org.springframework.data.jdbc.core.JdbcAggregateTemplate
@@ -64,9 +64,9 @@ class TablePageableRepositoryImpl<T : Any>(
                     whereClauses += "LOWER(\"$field\") LIKE '%$searchLower%'"
                 }
         }
-        val whereClause = whereClauses.joinToString(separator = " OR ", prefix = " WHERE ") {
-            "($it)"
-        }
+        val whereClause =
+            if (whereClauses.isEmpty()) ""
+            else whereClauses.joinToString(separator = " OR ", prefix = " WHERE ") { "($it)" }
         val sort = pageable.sort
         val orderClause = if (sort != null && sort.isSorted) {
             val sortList: List<Sort.Order> = sort.toList()

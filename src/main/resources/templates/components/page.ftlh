@@ -1,6 +1,6 @@
 <#include "page/theme-switch.ftlh"/>
 
-<#macro page title=''>
+<#macro page title='' style=''>
     <!DOCTYPE html>
     <html lang="de">
     <head>
@@ -17,6 +17,7 @@
               rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-table@1.27.1/dist/bootstrap-table.min.css"
               rel="stylesheet">
+        <style>${style}</style>
     </head>
     <body>
     <div class="toast-container p-3 bottom-0 start-50 translate-middle-x"></div>

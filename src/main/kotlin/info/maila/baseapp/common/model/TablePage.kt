@@ -1,9 +1,9 @@
-package info.maila.baseapp.common.rest
+package info.maila.baseapp.common.model
 
 import kotlin.time.Duration
 
 data class TablePage<T : Any>(
-    val rows: Collection<T>,
+    val rows: List<T>,
     val total: Long? = null,
     val totalNonFiltered: Long? = null,
     val queryRuntime: Duration? = null,

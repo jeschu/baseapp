@@ -1,5 +1,4 @@
-<#import "components/page.ftlh" as page>
-<@page.page title=version>
+<@p.page title=version>
     <h1>h1. Bootstrap heading</h1>
     <h2>h2. Bootstrap heading</h2>
     <h3>h3. Bootstrap heading</h3>
@@ -35,4 +34,4 @@
     ><i class="bi bi-exclamation-circle"></i>
     </button>
 
-</@page.page>
+</@p.page>

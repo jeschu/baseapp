@@ -1,16 +1,15 @@
 package info.maila.baseapp.domain.music
 
+import info.maila.baseapp.common.model.TablePage
+import info.maila.baseapp.common.model.TablePageable
+import info.maila.baseapp.database.EntityNotFoundException
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.springframework.data.domain.PageImpl
 import java.util.*
-import info.maila.baseapp.database.EntityNotFoundException
-import info.maila.baseapp.common.rest.TablePageable
 
 class TrackServiceUnitTest {
 
@@ -54,67 +53,12 @@ class TrackServiceUnitTest {
     fun `findAll delegates to trackOverviewRepository`() {
         val pageable = TablePageable(offset = 0, limit = 10)
         val overview = TrackOverview(id = 1L, path = "foo.mp3")
-        every { trackOverviewRepository.findAllCustom(pageable) } returns PageImpl(listOf(overview))
+        every {
+            trackOverviewRepository.findAll(pageable, TrackOverview::class)
+        } returns TablePage(listOf(overview))
         val result = trackService.findAll(pageable)
-        assertEquals(1, result.totalElements)
-        assertEquals(overview, result.content[0])
-    }
-
-    @Test
-    fun `save enforces id and dbVersion null and saves`() {
-        val track = Track(id = null, dbVersion = null, path = "foo.mp3")
-        val saved = track.copy(id = 1L, dbVersion = 0)
-        every { trackRepository.save(track) } returns saved
-        val result = trackService.save(track)
-        assertEquals(saved, result)
-    }
-
-    @Test
-    fun `save throws if id is not null`() {
-        val track = Track(id = 1L, dbVersion = null, path = "foo.mp3")
-        assertThrows(IllegalArgumentException::class.java) {
-            trackService.save(track)
-        }
-    }
-
-    @Test
-    fun `save throws if dbVersion is not null`() {
-        val track = Track(id = null, dbVersion = 1, path = "foo.mp3")
-        assertThrows(IllegalArgumentException::class.java) {
-            trackService.save(track)
-        }
-    }
-
-    @Test
-    fun `update enforces id match and dbVersion not null and saves`() {
-        val track = Track(id = 1L, dbVersion = 2, path = "foo.mp3")
-        every { trackRepository.findById(1L) } returns Optional.of(track)
-        every { trackRepository.save(track) } returns track
-        val result = trackService.update(1L, track)
-        assertEquals(track, result)
-    }
-
-    @Test
-    fun `update throws if id mismatch`() {
-        val track = Track(id = 2L, dbVersion = 2, path = "foo.mp3")
-        assertThrows(IllegalArgumentException::class.java) {
-            trackService.update(1L, track)
-        }
-    }
-
-    @Test
-    fun `update throws if dbVersion is null`() {
-        val track = Track(id = 1L, dbVersion = null, path = "foo.mp3")
-        assertThrows(IllegalArgumentException::class.java) {
-            trackService.update(1L, track)
-        }
-    }
-
-    @Test
-    fun `delete delegates to repository`() {
-        every { trackRepository.deleteById(1L) } returns Unit
-        trackService.delete(1L)
-        verify { trackRepository.deleteById(1L) }
+        assertEquals(1, result.rows.size)
+        assertEquals(overview, result.rows[0])
     }
 
 }

@@ -27,6 +27,9 @@ spring:
     settings:
       template_exception_handler: rethrow
       #expose-session-attributes: true
+    template-loader-path:
+      - classpath:/
+      - classpath:/templates/
 
   datasource:
     driver-class-name: org.postgresql.Driver

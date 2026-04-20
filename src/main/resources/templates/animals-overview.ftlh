@@ -1,6 +1,3 @@
-<#import "components/page.ftlh" as p>
-<#import "components/table.ftlh" as t>
-<#import "components/button.ftlh" as b>
 <@p.page title='Animals'>
 
     <@t.toolbar id="animals">
