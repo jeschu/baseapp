@@ -1,37 +1,45 @@
 package info.maila.baseapp.common.rest
 
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
-import kotlin.math.max
 import kotlin.math.min
 
-data class TablePageable(
-    val offset: Long? = null,
-    val limit: Int? = null,
-    val sort: String? = null,
+class TablePageable(
+    offset: Long? = null,
+    limit: Int? = null,
+    sort: String? = null,
     val order: String? = null,
     val search: String? = null,
-    val visibleFields: List<String>? = null,
+    visibleFields: List<String>? = null,
 ) {
 
+    val offset: Long = offset ?: 0L
+    val limit: Int = min(limit ?: LIMIT_DEFAULT, LIMIT_MAX)
+    val sort: Sort? = sort?.let {
+        val direction = if ("desc".equals(order, true)) Sort.Direction.DESC else Sort.Direction.ASC
+        Sort.by(direction, it)
+    }
     val fields: List<String> = visibleFields
         ?.filterNot { it.matches(FILTER_VISIBLE_FIELDS_REGEX) }
         ?: emptyList()
-
     val actionsVisible = visibleFields?.contains(FILTER_VISIBLE_FIELDS_ACTIONS) ?: false
 
-    fun pageable(): Pageable {
-        val pageSize: Int = max(1, min(limit ?: LIMIT_DEFAULT, LIMIT_MAX))
-        val pageNumber: Int = if (pageSize == 0) 0 else ((offset ?: 0L) / pageSize).toInt()
-        val sort = if (sort == null) Sort.unsorted() else Sort.by(order.direction(), sort)
-        return PageRequest.of(pageNumber, pageSize, sort)
-    }
+    override fun toString(): String = "TablePageable(" +
+            "offset=$offset, " +
+            "limit=$limit, " +
+            "sort=$sort, " +
+            "order=$order, " +
+            "search=$search, " +
+            "fields=$fields" +
+            ")"
 
-    private fun String?.direction(): Sort.Direction {
-        if ("desc".equals(this, true)) return Sort.Direction.DESC
-        return Sort.Direction.ASC
+    /**
+    fun pageable(): Pageable {
+    val pageSize: Int = max(1, min(limit ?: LIMIT_DEFAULT, LIMIT_MAX))
+    val pageNumber: Int = if (pageSize == 0) 0 else ((offset ?: 0L) / pageSize).toInt()
+    val sort = if (sort == null) Sort.unsorted() else Sort.by(order.direction(), sort)
+    return PageRequest.of(pageNumber, pageSize, sort)
     }
+     */
 
     companion object {
         private const val LIMIT_DEFAULT = 20

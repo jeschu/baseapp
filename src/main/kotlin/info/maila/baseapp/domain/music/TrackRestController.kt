@@ -24,12 +24,10 @@ class TrackRestController(private val service: TrackService) {
         logger.trace {
             val queryStr = rq.queryString
                 ?.let { URLDecoder.decode(it, Charsets.UTF_8) }
-                ?.let { "?$it" } ?: ""
-            "$pageable - ${rq.requestURI}?$queryStr"
+                ?: ""
+            "${rq.requestURI}?$queryStr"
         }
-        logger.trace { "pageable=$pageable" }
-        logger.trace { "pageable.fields=${pageable.fields}" }
-        logger.trace { "pageable.actionsVisible=${pageable.actionsVisible}" }
+        logger.trace { pageable }
         return service.findAll(pageable)
     }
 

@@ -14,7 +14,7 @@ class WebConfig @Autowired constructor(
     private val logger = KotlinLogging.logger { }
 
     override fun addInterceptors(registry: InterceptorRegistry) {
-        logger.debug { "adding ${RequestInterceptor::class.qualifiedName} ..." }
+        logger.info { "adding ${RequestInterceptor::class.qualifiedName} ..." }
         registry.addInterceptor(requestInterceptor)
     }
 
