@@ -1,3 +1,5 @@
+<#import "functions.ftlh" as fun>
+
 <#macro form id action model method='post'>
     <form id="${id}"
           method="${method}"

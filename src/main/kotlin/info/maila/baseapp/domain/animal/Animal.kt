@@ -17,7 +17,6 @@ data class Animal(
     @NotBlank
     val name: String? = null,
 
-    @NotBlank
     val type: String? = null
 
 ) {
