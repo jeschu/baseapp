@@ -37,6 +37,9 @@ class RequestInterceptor : HandlerInterceptor {
         modelAndView: ModelAndView?
     ) {
 
+        modelAndView?.addObject("HttpResponse", response)
+        modelAndView?.addObject("HttpRequest", request)
+
         if (requestStart.get() != null) {
             val runtime = Clock.System.now().minus(requestStart.get())
             response.setHeader(xRuntime, runtime.toString())

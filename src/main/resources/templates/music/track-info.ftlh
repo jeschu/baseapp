@@ -79,8 +79,7 @@
                 <div class="col-12 text-truncate mt-2"
                      style="font-size: 0.8rem !important;">Path: ${track.path}</div>
             </div>
-            <@b.link href="${referrer?has_content?string(referrer, 'javascript:history.back()')}" type="secondary"
-            label="Back" icon="arrow-left" class="mt-3"/>
+            <@b.link role='back' class="mt-3"/>
         </div>
     </div>
 </@p.page>

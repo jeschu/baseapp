@@ -1,3 +1,5 @@
+<#import "/templates/components/functions.ftlh" as fun>
+
 <#macro table
 id
 idField='id'
@@ -88,7 +90,6 @@ switchable=true
 searchable=true
 align=''
 >
-    <#assign l_label="${label?empty_to_null!field}"/>
     <th
             data-field="${field}"
             data-sortable="${sort?cn}"
@@ -96,7 +97,7 @@ align=''
             data-searchable="${searchable?cn}"
             data-align="${align?has_content?string(align,'left')}"
     >
-        ${l_label}
+        ${(label?has_content || labelKey?has_content)?string(fun.label(labelKey, label), field)}
     </th>
 </#macro>
 

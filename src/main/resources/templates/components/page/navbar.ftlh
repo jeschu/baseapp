@@ -1,3 +1,5 @@
+<#import "/templates/components/functions.ftlh" as fun>
+
 <nav class="navbar navbar-expand-lg bg-body-tertiary mb-4">
     <div class="container-fluid">
         <#--<@sidemenu_toggle/>-->
@@ -12,16 +14,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <@navitem href="/" label="Home"/>
-                <@navitem href="/animals" label="Animals"/>
-                <@navitem href="/tracks" label="Music"/>
+                <@navitem href="/"        labelKey="navbar.link.home"   />
+                <@navitem href="/animals" labelKey="navbar.link.animals"/>
+                <@navitem href="/tracks"  labelKey="navbar.link.music"  />
             </ul>
             <div class="d-flex align-items-center" role="switch">
                 <form method="get" class="me-2" style="margin-bottom:0;">
                     <input type="hidden" name="redirect" value="${rc.getRequestUri()}"/>
                     <div class="btn-group btn-group-sm" role="group">
-                        <button type="submit" name="lang" value="de" class="btn btn-outline-secondary${(rc.locale == "de")?string(' active', '')}">DE</button>
-                        <button type="submit" name="lang" value="en" class="btn btn-outline-secondary${(rc.locale == "en")?string(' active', '')}">EN</button>
+                        <@langButton "de"/>
+                        <@langButton "en" "gb"/>
                     </div>
                 </form>
                 <#include 'theme-switch.ftlh'/>
@@ -30,7 +32,14 @@
     </div>
 </nav>
 
-<#macro navitem href label>
+<#macro langButton lang flag=''>
+    <button type="submit" name="lang" value="${lang}"
+            class="btn btn-outline-secondary${(rc.locale == lang)?string(' active', '')}">
+        <i class="fi fi-${flag?has_content?string(flag, lang)}" style="filter: grayscale(70%)"></i>
+    </button>
+</#macro>
+
+<#macro navitem href labelKey='' label=''>
     <#local uri = rc.getRequestUri()/>
     <#if href == "/" && uri != "/" >
         <#local active = false/>
@@ -42,7 +51,7 @@
         <#local class = "${class} active"/>
     </#if>
     <li class="nav-item">
-        <a class="${class}" aria-current="${active?c}" href="${href}">${label}</a>
+        <a class="${class}" aria-current="${active?c}" href="${href}">${fun.label(labelKey, label)}</a>
     </li>
 </#macro>
 

@@ -1,4 +1,19 @@
-<#macro link href type='primary' icon='' label='' class="">
+<#import "/templates/components/functions.ftlh" as fun>
+
+<#macro link role='' href='#' type='primary' icon='' label='' labelKey='' class=''>
+    <#switch role>
+        <#case 'add'>
+            <#local type='primary'/>
+            <#local icon='plus'/>
+            <#local labelKey='common.button.add'/>
+            <#break>
+        <#case 'back'>
+            <#local href="${HttpRequest.getHeader('Referer')?has_content?string(HttpRequest.getHeader('Referer'), 'javascript:history.back()')}"/>
+            <#local type='secondary'/>
+            <#local icon='arrow-left'/>
+            <#local labelKey='common.button.back'/>
+            <#break>
+    </#switch>
     <#if type?has_content>
         <#local l_type=type/>
     <#else>
@@ -6,6 +21,6 @@
     </#if>
     <a href="${href}" role="button" class="btn btn-${l_type} ${class}">
         <#if icon?has_content><i class="bi bi-${icon} me-1"></i></#if>
-        ${label}
+        ${fun.label(labelKey, label)}
     </a>
 </#macro>

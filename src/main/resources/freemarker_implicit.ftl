@@ -1,5 +1,7 @@
 [#ftl]
 [#-- @implicitly included --]
+[#-- @ftlvariable name="HttpRequest" type="jakarta.servlet.http.HttpServletRequest" --]
+[#-- @ftlvariable name="HttpResponse" type="jakarta.servlet.http.HttpServletResponse" --]
 [#-- @ftlvariable name="rc" type="org.springframework.web.servlet.support.RequestContext" --]
 [#-- @ftlvariable name="statics" type="java.util.Map<java.lang.String, java.lang.Object>" --]
 [#import '/templates/components/page.ftlh' as p]
@@ -10,5 +12,5 @@
 
 [#-- i18n helper macro --]
 [#macro i18n key]
-    ${rc.getMessage(key)!'{{${key}}}'}
+    ${rc.getMessage(key, "{{${key}}}")}
 [/#macro]

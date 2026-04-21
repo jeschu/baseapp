@@ -18,8 +18,7 @@ class FreemarkerSharedVariablesConfig(val freemarkerConfiguration: FreemarkerCon
             BeansWrapperBuilder(FreemarkerConfiguration.VERSION_2_3_34).build().staticModels
         )
         logger.info { """setSharedVariable("statics")""" }
-        freemarkerConfiguration.addAutoInclude("freemarker_implicit.ftl" +
-                "")
+        freemarkerConfiguration.addAutoInclude("freemarker_implicit.ftl")
         logger.info { """addAutoInclude("freemarker_implicit.ftl")""".trimMargin() }
     }
 

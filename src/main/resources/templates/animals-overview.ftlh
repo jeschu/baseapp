@@ -1,10 +1,7 @@
 <@p.page title='Animals'>
 
     <@t.toolbar id="animals">
-        <@b.link href="/animals/new"
-        icon="plus"
-        label="Add"
-        />
+        <@b.link role="add" href="/animals/new"/>
     </@t.toolbar>
     <@t.table id="animals" url="/api/animals" toolbar=true>
         <@t.col field="id" sort=true label="ID"/>
