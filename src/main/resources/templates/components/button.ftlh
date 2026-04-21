@@ -8,7 +8,7 @@
             <#local labelKey='common.button.add'/>
             <#break>
         <#case 'back'>
-            <#local href="${HttpRequest.getHeader('Referer')?has_content?string(HttpRequest.getHeader('Referer'), 'javascript:history.back()')}"/>
+            <#local href="${httpRequest.getHeader('Referer')?has_content?string(httpRequest.getHeader('Referer'), 'javascript:history.back()')}"/>
             <#local type='secondary'/>
             <#local icon='arrow-left'/>
             <#local labelKey='common.button.back'/>

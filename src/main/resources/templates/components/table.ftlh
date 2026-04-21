@@ -25,10 +25,9 @@ addrbarPrefix=''
 rememberOrder=true
 >
     <#assign l_url = "${url?empty_to_null!('/api' + rc.getRequestUri())}"/>
-    <#assign dataAjax = 'dataAjax_' + statics['java.util.UUID'].randomUUID()?replace('-', '')/>
+    <#assign dataAjax = utils.uniqueJavaScriptName('dataAjax')/>
     <table id="${id}"
            data-id-field="${idField}"
-           data-toggle="table"
            data-data-field="${dataField}"
            data-url="${l_url}"
            data-pagination="${pagination?c}"
@@ -66,8 +65,7 @@ rememberOrder=true
 
     <script>
         window.${dataAjax} = (ajaxConfig) => {
-            let table = $("#${id}");
-            let visibleFields = table.bootstrapTable('getVisibleColumns').map(it => it.field).join(',');
+            let visibleFields = $("#${id}").bootstrapTable('getVisibleColumns').map(it => it.field).join(',');
             ajaxConfig.data = {
                 offset: ajaxConfig.data.offset,
                 limit: ajaxConfig.data.limit,
@@ -77,7 +75,24 @@ rememberOrder=true
                 visibleFields
             };
             $.ajax(ajaxConfig);
-        }
+        };
+        <#-- lazy init bootstrap table -->
+        window.onload = () => {
+            $("#${id}").bootstrapTable({
+                formatSearch: () => {
+                    return "${fun.label('common.table.search.label')}"
+                },
+                formatShowingRows: (pageFrom, pageTo, totalRows) => {
+                    return "${utils.message('common.table.showing-rows.label')}"
+                        .replace('$pageFrom$', pageFrom)
+                        .replace('$pageTo$', pageTo)
+                        .replace('$totalRows$', totalRows)
+                },
+                formatRecordsPerPage: (pageNumber) => {
+                    return pageNumber + ' ' + "${utils.message('common.table.records-per-page.label')}"
+                },
+            });
+        };
     </script>
 </#macro>
 
@@ -104,8 +119,6 @@ align=''
 <#macro actions idField='id' showEdit=true showDelete=true editIcon='pencil' deleteIcon='trash'>
     <th data-formatter="actionsFormatter" data-switchable="false" data-field="[_actions_]"></th>
     <script>
-        <#--noinspection JSUnusedLocalSymbols-->
-
         function actionsFormatter(value, row, index) {
             const id = row["${idField}"];
             const editUrl = '${rc.getRequestUri()}/' + id;

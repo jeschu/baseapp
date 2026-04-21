@@ -1,5 +1,8 @@
+<#import "/templates/components/functions.ftlh" as fun>
+
 <@p.page title=version>
-    <h1><@i18n "greeting"/></h1>
+    <#assign h1=fun.label("greeting", "", "Welt")/>
+    <h1>${h1}</h1>
     <h2>h2. Bootstrap heading</h2>
     <h3>h3. Bootstrap heading</h3>
     <h4>h4. Bootstrap heading</h4>

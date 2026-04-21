@@ -6,10 +6,10 @@
     </#if>
 </#function>
 
-<#function label labelKey label=''>
+<#function label labelKey label='' values...>
     <#if label?has_content>
         <#return label/>
     <#else>
-        <#return "${rc.getMessage(labelKey, '{{${labelKey}}}')}">
+        <#return "${utils.message(labelKey, values)}"/>
     </#if>
 </#function>

@@ -1,7 +1,8 @@
 [#ftl]
 [#-- @implicitly included --]
-[#-- @ftlvariable name="HttpRequest" type="jakarta.servlet.http.HttpServletRequest" --]
-[#-- @ftlvariable name="HttpResponse" type="jakarta.servlet.http.HttpServletResponse" --]
+[#-- @ftlvariable name="utils" type="info.maila.baseapp.config.FreemarkerSharedVariablesConfig.FreemarkerUtils" --]
+[#-- @ftlvariable name="httpRequest" type="jakarta.servlet.http.HttpServletRequest" --]
+[#-- @ftlvariable name="httpResponse" type="jakarta.servlet.http.HttpServletResponse" --]
 [#-- @ftlvariable name="rc" type="org.springframework.web.servlet.support.RequestContext" --]
 [#-- @ftlvariable name="statics" type="java.util.Map<java.lang.String, java.lang.Object>" --]
 [#import '/templates/components/page.ftlh' as p]
@@ -9,8 +10,3 @@
 [#import '/templates/components/form.ftlh' as f]
 [#import '/templates/components/button.ftlh' as b]
 [#import '/templates/components/functions.ftlh' as fun]
-
-[#-- i18n helper macro --]
-[#macro i18n key]
-    ${rc.getMessage(key, "{{${key}}}")}
-[/#macro]
