@@ -11,6 +11,18 @@ CREATE TABLE IF NOT EXISTS baseapp.track
     db_version                        INT  NOT NULL DEFAULT 1,
 
     path                              TEXT NOT NULL UNIQUE,
+
+    encoding_type                     TEXT,
+    bit_rate                          INT,
+    sample_rate                       INT,
+    format                            TEXT,
+    channels                          TEXT,
+    is_variable_bit_rate              BOOLEAN,
+    track_length                      DOUBLE PRECISION,
+    bits_per_sample                   INT,
+    is_lossless                       BOOLEAN,
+    no_of_samples                     INT,
+
     acoustid_fingerprint              TEXT,
     acoustid_id                       TEXT,
     album                             TEXT,

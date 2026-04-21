@@ -2,18 +2,31 @@ package info.maila.baseapp.domain.music
 
 import jakarta.validation.constraints.NotNull
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.Transient
 import org.springframework.data.annotation.Version
-import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
-import java.util.Objects
+import java.util.*
+import kotlin.math.round
+import kotlin.time.Duration
+import kotlin.time.DurationUnit.SECONDS
+import kotlin.time.toDuration
 
 @Table(name = "track", schema = "baseapp")
 data class TrackOverview(
     @Id
     val id: Long? = null,
     @NotNull
-    @Column("path")
     val path: String? = null,
+    val encodingType: String? = null,
+    val bitRate: Long? = null,
+    val sampleRate: Int? = null,
+    val format: String? = null,
+    val channels: String? = null,
+    val isVariableBitRate: Boolean? = null,
+    val trackLength: Double? = null,
+    val bitsPerSample: Int? = null,
+    val isLossless: Boolean? = null,
+    val noOfSamples: Long? = null,
     val album: String? = null,
     val albumArtist: String? = null,
     val albumArtistSort: String? = null,
@@ -77,134 +90,33 @@ data class TrackOverview(
     override fun toString() = "%s(id=%s, path='%s')"
         .format(TrackOverview::class.simpleName, Objects.toString(id, "-"), path)
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as TrackOverview
-
-        if (id != other.id) return false
-        if (dbVersion != other.dbVersion) return false
-        if (path != other.path) return false
-        if (album != other.album) return false
-        if (albumArtist != other.albumArtist) return false
-        if (albumArtistSort != other.albumArtistSort) return false
-        if (albumArtists != other.albumArtists) return false
-        if (albumArtistsSort != other.albumArtistsSort) return false
-        if (albumSort != other.albumSort) return false
-        if (albumYear != other.albumYear) return false
-        if (arranger != other.arranger) return false
-        if (arrangerSort != other.arrangerSort) return false
-        if (artist != other.artist) return false
-        if (artists != other.artists) return false
-        if (artistsSort != other.artistsSort) return false
-        if (artistSort != other.artistSort) return false
-        if (bpm != other.bpm) return false
-        if (comment != other.comment) return false
-        if (composer != other.composer) return false
-        if (composerSort != other.composerSort) return false
-        if (copyright != other.copyright) return false
-        if (country != other.country) return false
-        if (coverArt != other.coverArt) return false
-        if (discNo != other.discNo) return false
-        if (discSubtitle != other.discSubtitle) return false
-        if (discTotal != other.discTotal) return false
-        if (genre != other.genre) return false
-        if (isSoundtrack != other.isSoundtrack) return false
-        if (isCompilation != other.isCompilation) return false
-        if (itunesGrouping != other.itunesGrouping) return false
-        if (language != other.language) return false
-        if (lyricist != other.lyricist) return false
-        if (lyricistSort != other.lyricistSort) return false
-        if (lyrics != other.lyrics) return false
-        if (orchestraSort != other.orchestraSort) return false
-        if (originalAlbum != other.originalAlbum) return false
-        if (originalreleasedate != other.originalreleasedate) return false
-        if (originalArtist != other.originalArtist) return false
-        if (originalLyricist != other.originalLyricist) return false
-        if (originalYear != other.originalYear) return false
-        if (part != other.part) return false
-        if (partNumber != other.partNumber) return false
-        if (partType != other.partType) return false
-        if (performer != other.performer) return false
-        if (performerName != other.performerName) return false
-        if (performerNameSort != other.performerNameSort) return false
-        if (producer != other.producer) return false
-        if (producerSort != other.producerSort) return false
-        if (quality != other.quality) return false
-        if (ranking != other.ranking) return false
-        if (rating != other.rating) return false
-        if (tempo != other.tempo) return false
-        if (title != other.title) return false
-        if (titleSort != other.titleSort) return false
-        if (track != other.track) return false
-        if (trackTotal != other.trackTotal) return false
-        if (year != other.year) return false
-        if (version != other.version) return false
-
-        return true
+    @Transient
+    val channelsInt: Int? = when (channels?.lowercase()) {
+        "Stereo", "Joint Stereo", "Dual", "2" -> 2
+        "Mono", "1" -> 1
+        else -> null
     }
 
-    override fun hashCode(): Int {
-        var result = id?.hashCode() ?: 0
-        result = 31 * result + (dbVersion ?: 0)
-        result = 31 * result + (path?.hashCode() ?: 0)
-        result = 31 * result + (album?.hashCode() ?: 0)
-        result = 31 * result + (albumArtist?.hashCode() ?: 0)
-        result = 31 * result + (albumArtistSort?.hashCode() ?: 0)
-        result = 31 * result + (albumArtists?.hashCode() ?: 0)
-        result = 31 * result + (albumArtistsSort?.hashCode() ?: 0)
-        result = 31 * result + (albumSort?.hashCode() ?: 0)
-        result = 31 * result + (albumYear?.hashCode() ?: 0)
-        result = 31 * result + (arranger?.hashCode() ?: 0)
-        result = 31 * result + (arrangerSort?.hashCode() ?: 0)
-        result = 31 * result + (artist?.hashCode() ?: 0)
-        result = 31 * result + (artists?.hashCode() ?: 0)
-        result = 31 * result + (artistsSort?.hashCode() ?: 0)
-        result = 31 * result + (artistSort?.hashCode() ?: 0)
-        result = 31 * result + (bpm?.hashCode() ?: 0)
-        result = 31 * result + (comment?.hashCode() ?: 0)
-        result = 31 * result + (composer?.hashCode() ?: 0)
-        result = 31 * result + (composerSort?.hashCode() ?: 0)
-        result = 31 * result + (copyright?.hashCode() ?: 0)
-        result = 31 * result + (country?.hashCode() ?: 0)
-        result = 31 * result + (coverArt?.hashCode() ?: 0)
-        result = 31 * result + (discNo?.hashCode() ?: 0)
-        result = 31 * result + (discSubtitle?.hashCode() ?: 0)
-        result = 31 * result + (discTotal?.hashCode() ?: 0)
-        result = 31 * result + (genre?.hashCode() ?: 0)
-        result = 31 * result + (isSoundtrack?.hashCode() ?: 0)
-        result = 31 * result + (isCompilation?.hashCode() ?: 0)
-        result = 31 * result + (itunesGrouping?.hashCode() ?: 0)
-        result = 31 * result + (language?.hashCode() ?: 0)
-        result = 31 * result + (lyricist?.hashCode() ?: 0)
-        result = 31 * result + (lyricistSort?.hashCode() ?: 0)
-        result = 31 * result + (lyrics?.hashCode() ?: 0)
-        result = 31 * result + (orchestraSort?.hashCode() ?: 0)
-        result = 31 * result + (originalAlbum?.hashCode() ?: 0)
-        result = 31 * result + (originalreleasedate?.hashCode() ?: 0)
-        result = 31 * result + (originalArtist?.hashCode() ?: 0)
-        result = 31 * result + (originalLyricist?.hashCode() ?: 0)
-        result = 31 * result + (originalYear?.hashCode() ?: 0)
-        result = 31 * result + (part?.hashCode() ?: 0)
-        result = 31 * result + (partNumber?.hashCode() ?: 0)
-        result = 31 * result + (partType?.hashCode() ?: 0)
-        result = 31 * result + (performer?.hashCode() ?: 0)
-        result = 31 * result + (performerName?.hashCode() ?: 0)
-        result = 31 * result + (performerNameSort?.hashCode() ?: 0)
-        result = 31 * result + (producer?.hashCode() ?: 0)
-        result = 31 * result + (producerSort?.hashCode() ?: 0)
-        result = 31 * result + (quality?.hashCode() ?: 0)
-        result = 31 * result + (ranking?.hashCode() ?: 0)
-        result = 31 * result + (rating?.hashCode() ?: 0)
-        result = 31 * result + (tempo?.hashCode() ?: 0)
-        result = 31 * result + (title?.hashCode() ?: 0)
-        result = 31 * result + (titleSort?.hashCode() ?: 0)
-        result = 31 * result + (track?.hashCode() ?: 0)
-        result = 31 * result + (trackTotal?.hashCode() ?: 0)
-        result = 31 * result + (year?.hashCode() ?: 0)
-        result = 31 * result + (version?.hashCode() ?: 0)
-        return result
+    @Transient
+    val discNoInt: Int? = discNo?.toIntOrNull()
+
+    @Transient
+    val discTotalInt: Int? = discTotal?.toIntOrNull()
+
+    @Transient
+    val trackInt: Int? = track?.toIntOrNull()
+
+    @Transient
+    val trackTotalInt: Int? = trackTotal?.toIntOrNull()
+
+    @Transient
+    val trackLengthDuration: Duration? = trackLength?.toDuration(SECONDS)
+
+    @Transient
+    val trackLengthString: String? = trackLengthDuration?.let { d ->
+        "%d:%02d".format(
+            d.inWholeMinutes,
+            trackLength!!.mod(60.0).let { s -> round(s).toInt() })
     }
 
 }

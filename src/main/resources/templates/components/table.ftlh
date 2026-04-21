@@ -85,6 +85,7 @@ label=''
 sort=false
 switchable=true
 searchable=true
+align=''
 >
     <#assign l_label="${label?empty_to_null!field}"/>
     <th
@@ -92,15 +93,17 @@ searchable=true
             data-sortable="${sort?cn}"
             data-switchable="${switchable?cn}"
             data-searchable="${searchable?cn}"
+            data-align="${align?has_content?string(align,'left')}"
     >
         ${l_label}
     </th>
 </#macro>
 
 <#macro actions idField='id' showEdit=true showDelete=true editIcon='pencil' deleteIcon='trash'>
-    <th data-formatter="actionsFormatter" data-field="[_actions_]"></th>
+    <th data-formatter="actionsFormatter" data-switchable="false" data-field="[_actions_]"></th>
     <script>
         <#--noinspection JSUnusedLocalSymbols-->
+
         function actionsFormatter(value, row, index) {
             const id = row["${idField}"];
             const editUrl = '${rc.getRequestUri()}/' + id;

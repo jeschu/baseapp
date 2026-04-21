@@ -211,14 +211,24 @@ object TagService {
 
         fun AudioFile.getTag(key: FieldKey) =
             try {
-                val artworks: List<Artwork> = this.tag?.artworkList?.filterNotNull() ?: emptyList()
                 tag?.getAll(key)?.toSet()?.joinToString("\n")
             } catch (_: KeyNotFoundException) {
                 null
             }
 
+        val audioHeader = audioFile.audioHeader
         var track = Track(
             path = path,
+            encodingType = audioHeader.encodingType,
+            bitRate = audioHeader.bitRateAsNumber,
+            sampleRate = audioHeader.sampleRateAsNumber,
+            format = audioHeader.format,
+            channels = audioHeader.channels,
+            isVariableBitRate = audioHeader.isVariableBitRate,
+            trackLength = audioHeader.preciseTrackLength,
+            bitsPerSample = audioHeader.bitsPerSample,
+            isLossless = audioHeader.isLossless,
+            noOfSamples = audioHeader.noOfSamples,
             acoustidFingerprint = audioFile.getTag(ACOUSTID_FINGERPRINT),
             acoustidId = audioFile.getTag(ACOUSTID_ID),
             album = audioFile.getTag(ALBUM),

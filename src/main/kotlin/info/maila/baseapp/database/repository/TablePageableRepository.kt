@@ -59,7 +59,7 @@ class TablePageableRepositoryImpl<T : Any>(
         if (search != null) {
             val searchLower = search.lowercase()
             pageable.fields
-                .filter { field -> entityCache.get(entityClass, field).isString }
+                .filter { field -> entityCache.get(entityClass, field)?.isString ?: false }
                 .forEach { field ->
                     whereClauses += "LOWER(\"$field\") LIKE '%$searchLower%'"
                 }

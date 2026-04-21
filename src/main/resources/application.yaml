@@ -65,7 +65,7 @@ logging:
     org.springframework.security.web.csrf.CsrfFilter: DEBUG
     org.springframework.security.web.access.intercept.FilterSecurityInterceptor: TRACE
     org.springframework.web.servlet.DispatcherServlet: INFO
-    org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor: TRACE
+    org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor: DEBUG
     org.flywaydb: TRACE
     org.flywaydb.core.internal.scanner: INFO
     org.springdoc: ERROR

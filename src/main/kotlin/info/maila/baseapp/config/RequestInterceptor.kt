@@ -16,6 +16,7 @@ class RequestInterceptor : HandlerInterceptor {
     private val requestStart = ThreadLocal<Instant>()
 
     val xRuntime = "X-Runtime"
+    val xRuntimeHide = "X-Runtime-Hide"
     val activation = listOf("yes", "on", "true", "1")
 
     override fun preHandle(
@@ -23,11 +24,9 @@ class RequestInterceptor : HandlerInterceptor {
         response: HttpServletResponse,
         handler: Any
     ): Boolean {
-
-        if (request.isActive(xRuntime)) {
+        if (!request.isActive(xRuntimeHide)) {
             requestStart.set(Clock.System.now())
         }
-
         return true
     }
 

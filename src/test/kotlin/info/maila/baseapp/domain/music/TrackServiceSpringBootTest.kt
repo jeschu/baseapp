@@ -1,5 +1,6 @@
 package info.maila.baseapp.domain.music
 
+import info.maila.baseapp.database.repository.EntityCache
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -18,6 +19,9 @@ class TrackServiceSpringBootTest {
 
     @Autowired
     lateinit var trackOverviewRepository: TrackOverviewRepository
+
+    @Autowired
+    lateinit var entityCache: EntityCache
 
     @Test
     @Disabled
