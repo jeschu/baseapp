@@ -1,0 +1,7 @@
+.border-mandatory {
+    border-color: var(--bs-primary-border-subtle) !important;
+}
+
+.border-error {
+    border-color: var(--bs-form-invalid-border-color) !important;
+}

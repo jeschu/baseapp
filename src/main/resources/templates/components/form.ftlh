@@ -18,7 +18,7 @@
     />
 </#macro>
 
-<#macro text model field id='' label='' help='' grid=0>
+<#macro text model field id='' label='' help='' grid=0 mandatory=false readonly=false attributes...>
     <#local bindingResult=.vars["org.springframework.validation.BindingResult." + model]>
     <#local errorMessage=''>
     <#if bindingResult?hasContent>
@@ -27,6 +27,7 @@
             <#local errorMessage=error.defaultMessage>
         </#if>
     </#if>
+    <#local isError=errorMessage?hasContent/>
     <#if !(id?hasContent)>
         <#local l_id="_id-text-${model}-${field}">
     <#else>
@@ -50,9 +51,13 @@
         <#else>
             <label for="${l_id}">${l_label!''}</label>
         </#if>
+        <#local inputBorder=''/>
+        <#if mandatory><#local inputBorder=' border-mandatory'/></#if>
+        <#if isError><#local inputBorder=' border-error'/></#if>
         <input id="${l_id}" name="${field}" value="${l_value}"
-               type="text" class="form-control"
+               type="text" class="form-control${inputBorder}"
                <#if help?hasContent>aria-describedby="${l_id}-help"</#if>
+               <#list attributes?keys as attr> ${attr}="${attributes[attr]}"</#list>
         />
         <#if help?hasContent>
             <div id="${l_id}-help" class="form-text">${help}</div>

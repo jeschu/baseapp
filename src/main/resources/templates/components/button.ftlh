@@ -1,6 +1,6 @@
 <#import "/templates/components/functions.ftlh" as fun>
 
-<#macro link role='' href='#' type='primary' icon='' label='' labelKey='' class=''>
+<#macro link role='' href='#' type='primary' icon='' label='' labelKey='' class='' attributes...>
     <#switch role>
         <#case 'add'>
             <#local type='primary'/>
@@ -19,7 +19,7 @@
     <#else>
         <#local l_type="primary"/>
     </#if>
-    <a href="${href}" role="button" class="btn btn-${l_type} ${class}">
+    <a href="${href}" role="button" class="btn btn-${l_type} ${class}"<#list attributes?keys as attr> ${attr}="${attributes[attr]}"</#list>>
         <#if icon?has_content><i class="bi bi-${icon} me-1"></i></#if>
         ${fun.label(labelKey, label)}
     </a>

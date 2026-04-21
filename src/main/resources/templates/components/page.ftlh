@@ -1,6 +1,6 @@
 <#include "page/theme-switch.ftlh"/>
 
-<#macro page title='' style=''>
+<#macro page title=''>
     <!DOCTYPE html>
     <html lang="de">
     <head>
@@ -19,7 +19,7 @@
               rel="stylesheet"/>
         <link href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.3.2/css/flag-icons.min.css"
               rel="stylesheet"/>
-        <style>${style}</style>
+        <link href="/styles.css" rel="stylesheet"/>
     </head>
     <body>
     <div class="toast-container p-3 bottom-0 start-50 translate-middle-x"></div>

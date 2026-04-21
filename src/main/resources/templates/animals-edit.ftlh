@@ -11,8 +11,8 @@
             <@f.hidden model='animal' field="id"/>
             <@f.hidden model='animal' field="version"/>
 
-            <@f.text model='animal' field="name" label="Name" grid=0 help="Animal´s name"/>
-            <@f.text model='animal' field="type" label="Type" grid=0/>
+            <@f.text model='animal' field="name" label="Name" grid=0 mandatory=true help="Animal´s name"/>
+            <@f.text model='animal' field="type" label="Type" grid=0 readonly=true/>
 
             <@f.actions/>
         </@f.form>
