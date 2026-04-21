@@ -2,6 +2,8 @@ package info.maila.baseapp.domain.music
 
 import info.maila.baseapp.common.rest.expires
 import io.github.oshai.kotlinlogging.KotlinLogging
+import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
@@ -22,9 +24,10 @@ class TrackController(private val service: TrackService) {
     fun overview(): String = "music/track-overview"
 
     @GetMapping(path = ["/{trackId}"])
-    fun info(@PathVariable trackId: Long, model: Model): String {
+    fun info(@PathVariable trackId: Long, model: Model, rc: HttpServletRequest): String {
         model.addAttribute(service.findTrackById(trackId))
         model.addAttribute(service.findTrackArtworkMetadata(trackId))
+        model.addAttribute("referrer", rc.getHeader(HttpHeaders.REFERER))
         return "music/track-info"
     }
 

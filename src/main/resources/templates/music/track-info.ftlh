@@ -80,7 +80,7 @@
                 <div class="col-12 text-truncate"
                      style="font-size: 0.8rem !important;">${track.path}</div>
             </div>
-            <@b.link href="javascript:history.back()" type="secondary"
+            <@b.link href="${referrer?has_content?string(referrer, 'javascript:history.back()')}" type="secondary"
             label="Back" icon="arrow-left" class="mt-3"/>
         </div>
     </div>
