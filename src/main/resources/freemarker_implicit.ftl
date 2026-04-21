@@ -7,3 +7,8 @@
 [#import '/templates/components/form.ftlh' as f]
 [#import '/templates/components/button.ftlh' as b]
 [#import '/templates/components/functions.ftlh' as fun]
+
+[#-- i18n helper macro --]
+[#macro i18n key]
+    ${rc.getMessage(key)!'{{${key}}}'}
+[/#macro]

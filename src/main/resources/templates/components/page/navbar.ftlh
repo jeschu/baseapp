@@ -16,7 +16,14 @@
                 <@navitem href="/animals" label="Animals"/>
                 <@navitem href="/tracks" label="Music"/>
             </ul>
-            <div class="d-flex" role="switch">
+            <div class="d-flex align-items-center" role="switch">
+                <form method="get" class="me-2" style="margin-bottom:0;">
+                    <input type="hidden" name="redirect" value="${rc.getRequestUri()}"/>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button type="submit" name="lang" value="de" class="btn btn-outline-secondary${(rc.locale == "de")?string(' active', '')}">DE</button>
+                        <button type="submit" name="lang" value="en" class="btn btn-outline-secondary${(rc.locale == "en")?string(' active', '')}">EN</button>
+                    </div>
+                </form>
                 <#include 'theme-switch.ftlh'/>
             </div>
         </div>
