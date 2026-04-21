@@ -76,6 +76,7 @@ rememberOrder=true
             };
             $.ajax(ajaxConfig);
         };
+
         <#-- lazy init bootstrap table -->
         window.onload = () => {
             $("#${id}").bootstrapTable({
