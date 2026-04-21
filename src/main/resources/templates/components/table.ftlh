@@ -82,6 +82,7 @@ rememberOrder=true
 <#macro col
 field
 label=''
+labelKey=''
 sort=false
 switchable=true
 searchable=true
