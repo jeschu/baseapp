@@ -46,8 +46,7 @@
                 <div class="fs-1" title="Track">${track.title!'No title'}</div>
                 <div class="fs-5" title="Album">${track.album!'No album'} ${track.albumYear!}</div>
                 <div class="fs-3" title="Artist">${track.artist!'No artist'}</div>
-                <div class="col-2">${track.trackLengthString!''}</div>
-                <div class="col-3">Year: ${track.year!'-'}</div>
+                <div class="col-5">${track.trackLengthString!''}</div>
                 <div class="col-4">
                     <#if track.track?has_content || track.trackTotal?has_content>
                         Track: ${track.track!'-'}&nbsp;/&nbsp;${track.trackTotal!'-'}
@@ -59,26 +58,26 @@
                     </#if>
                 </div>
                 <#if track.composer?has_content>
-                    <div>Composer: ${track.composer}</div>
+                    <div>Composer: ${track.composer!'-'} | Year: ${track.year!'-'}</div>
                 </#if>
                 <div>Genre: ${track.genre!'-'}</div>
-                <div class="col-5">
-                    Format: ${track.format?upper_case!'-'}
+                <div class="col-12">
+                    <#if track.format?has_content>${track.format?upper_case!'-'}</#if>
                     <#if track.encodingType?has_content> (${track.encodingType})</#if>
+                    | Lossless: ${track.isLossless()?string('Yes','No')!'-'}
                 </div>
-                <div class="col-4">
-                    Channels: ${(track.channelsInt?c)!''}
-                    <#if track.channels?has_content>(${track.channels})</#if>
+                <div class="col-12">
+                    <#if track.bitRate?has_content>${track.bitRate}kBit/s
+                        <#if track.isVariableBitRate??>(VBR)</#if>
+                    </#if>
+                    | ${track.bitsPerSample!'-'} bits/sample
+                    | <#if track.channelsInt?has_content>
+                        ${(track.channelsInt?c)!''} channels
+                        <#if track.channels?has_content>(${track.channels})</#if>
+                    </#if>
                 </div>
-                <div class="col-3">${track.bitsPerSample!'-'} bits/sample</div>
-                <div class="col-5">Bit rate:
-                    <#if track.bitRate?has_content>${track.bitRate}kBit/s<#else>-</#if>
-                    <#if track.isVariableBitRate??>(VBR)</#if>
-                </div>
-                <div class="col-4">Lossless: ${track.isLossless()?string('Yes','No')!'-'}</div>
-                <div class="col-3"></div>
-                <div class="col-12 text-truncate"
-                     style="font-size: 0.8rem !important;">${track.path}</div>
+                <div class="col-12 text-truncate mt-2"
+                     style="font-size: 0.8rem !important;">Path: ${track.path}</div>
             </div>
             <@b.link href="${referrer?has_content?string(referrer, 'javascript:history.back()')}" type="secondary"
             label="Back" icon="arrow-left" class="mt-3"/>
