@@ -1,4 +1,4 @@
-package info.maila.baseapp.domain.animal
+package info.maila.baseapp.domain.animal.model
 
 import jakarta.validation.constraints.NotBlank
 import org.springframework.data.annotation.Id

@@ -1,6 +1,8 @@
-package info.maila.baseapp.domain.animal
+package info.maila.baseapp.domain.animal.controller
 
 import info.maila.baseapp.common.rest.RestResult
+import info.maila.baseapp.domain.animal.model.Animal
+import info.maila.baseapp.domain.animal.service.AnimalService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.validation.Valid
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE

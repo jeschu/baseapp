@@ -1,7 +1,9 @@
-package info.maila.baseapp.domain.animal
+package info.maila.baseapp.domain.animal.service
 
 import info.maila.baseapp.common.model.TablePageable
 import info.maila.baseapp.database.EntityNotFoundException
+import info.maila.baseapp.domain.animal.model.Animal
+import info.maila.baseapp.domain.animal.repository.AnimalRepository
 import org.springframework.stereotype.Service
 
 @Service

@@ -1,6 +1,7 @@
-package info.maila.baseapp.domain.animal
+package info.maila.baseapp.domain.animal.controller
 
 import info.maila.baseapp.common.model.TablePageable
+import info.maila.baseapp.domain.animal.service.AnimalService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
