@@ -1,4 +1,4 @@
-package info.maila.baseapp.domain.music
+package info.maila.baseapp.domain.music.model
 
 import jakarta.validation.constraints.NotNull
 import org.springframework.data.annotation.Id

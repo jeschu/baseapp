@@ -1,4 +1,4 @@
-package info.maila.baseapp.domain.music
+package info.maila.baseapp.domain.music.model
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table

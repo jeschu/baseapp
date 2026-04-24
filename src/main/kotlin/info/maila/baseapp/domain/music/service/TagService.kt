@@ -1,5 +1,6 @@
-package info.maila.baseapp.domain.music
+package info.maila.baseapp.domain.music.service
 
+import info.maila.baseapp.domain.music.model.Track
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jaudiotagger.audio.AudioFile
 import org.jaudiotagger.audio.AudioFileIO

@@ -1,5 +1,5 @@
-<#-- @ftlvariable name="track" type="info.maila.baseapp.domain.music.Track" -->
-<#-- @ftlvariable name="trackArtworkMetadataList" type="java.util.List<info.maila.baseapp.domain.music.TrackArtworkMetadata>" -->
+<#-- @ftlvariable name="track" type="info.maila.baseapp.domain.music.model.Track" -->
+<#-- @ftlvariable name="trackArtworkMetadataList" type="java.util.List<info.maila.baseapp.domain.music.model.TrackArtworkMetadata>" -->
 <@p.page>
     <#assign style>
         --bs-carousel-indicator-active-bg: #fff;

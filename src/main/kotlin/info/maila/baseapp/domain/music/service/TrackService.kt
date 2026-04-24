@@ -1,7 +1,14 @@
-package info.maila.baseapp.domain.music
+package info.maila.baseapp.domain.music.service
 
 import info.maila.baseapp.common.model.TablePageable
 import info.maila.baseapp.database.EntityNotFoundException
+import info.maila.baseapp.domain.music.model.Track
+import info.maila.baseapp.domain.music.model.TrackArtwork
+import info.maila.baseapp.domain.music.model.TrackOverview
+import info.maila.baseapp.domain.music.repository.TrackArtworkMetadataRepository
+import info.maila.baseapp.domain.music.repository.TrackArtworkRepository
+import info.maila.baseapp.domain.music.repository.TrackOverviewRepository
+import info.maila.baseapp.domain.music.repository.TrackRepository
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.jaudiotagger.tag.images.Artwork
 import org.springframework.stereotype.Service

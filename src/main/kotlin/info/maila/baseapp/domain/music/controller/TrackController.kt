@@ -1,6 +1,8 @@
 package info.maila.baseapp.domain.music
 
 import info.maila.baseapp.common.rest.expires
+import info.maila.baseapp.domain.music.model.TrackArtwork
+import info.maila.baseapp.domain.music.service.TrackService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpHeaders

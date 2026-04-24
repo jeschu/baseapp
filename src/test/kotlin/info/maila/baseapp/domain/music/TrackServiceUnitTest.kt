@@ -3,6 +3,13 @@ package info.maila.baseapp.domain.music
 import info.maila.baseapp.common.model.TablePage
 import info.maila.baseapp.common.model.TablePageable
 import info.maila.baseapp.database.EntityNotFoundException
+import info.maila.baseapp.domain.music.model.Track
+import info.maila.baseapp.domain.music.model.TrackOverview
+import info.maila.baseapp.domain.music.repository.TrackArtworkMetadataRepository
+import info.maila.baseapp.domain.music.repository.TrackArtworkRepository
+import info.maila.baseapp.domain.music.repository.TrackOverviewRepository
+import info.maila.baseapp.domain.music.repository.TrackRepository
+import info.maila.baseapp.domain.music.service.TrackService
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
