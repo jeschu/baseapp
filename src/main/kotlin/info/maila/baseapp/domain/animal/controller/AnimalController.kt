@@ -1,7 +1,6 @@
 package info.maila.baseapp.domain.animal.controller
 
 import info.maila.baseapp.common.rest.RestResult
-import info.maila.baseapp.config.security.Role
 import info.maila.baseapp.config.security.Role.RESOURCE_BASEAPP_EDITOR
 import info.maila.baseapp.config.security.Role.RESOURCE_BASEAPP_PUBLIC
 import info.maila.baseapp.domain.animal.model.Animal
