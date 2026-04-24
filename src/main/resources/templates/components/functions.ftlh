@@ -10,6 +10,10 @@
     <#if label?has_content>
         <#return label/>
     <#else>
-        <#return "${utils.message(labelKey, values)}"/>
+        <#if labelKey?has_content>
+            <#return "${utils.message(labelKey, values)}"/>
+        <#else>
+            <#return ""/>
+        </#if>
     </#if>
 </#function>

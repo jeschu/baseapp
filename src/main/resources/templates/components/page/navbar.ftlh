@@ -27,6 +27,7 @@
                     </div>
                 </form>
                 <#include 'theme-switch.ftlh'/>
+                <@b.link href="/logout" label="" icon="door-closed" type="secondary" class="btn-sm ms-2"/>
             </div>
         </div>
     </div>

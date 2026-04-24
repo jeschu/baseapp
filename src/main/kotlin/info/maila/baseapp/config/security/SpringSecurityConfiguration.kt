@@ -1,10 +1,11 @@
 package info.maila.baseapp.config.security
 
-import info.maila.baseapp.config.security.Role.Companion.allRoles
+import info.maila.baseapp.config.security.Role.RESOURCE_BASEAPP_PUBLIC
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.security.config.Customizer
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -15,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain
 @Profile("!no-security")
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 class SpringSecurityConfiguration {
 
     @Bean
@@ -22,11 +24,13 @@ class SpringSecurityConfiguration {
         return httpSecurity
             .authorizeHttpRequests { authorize ->
                 authorize
-                    .requestMatchers("/**").hasAnyAuthority(*allRoles())
-                    .requestMatchers("/api/**").permitAll() // TODO
-                    .requestMatchers("/public/**").permitAll()
-                    .anyRequest().permitAll()
+                    .requestMatchers("/", "/favicon.ico").permitAll()
+                    //.requestMatchers("/**").hasAnyAuthority(RESOURCE_BASEAPP_PUBLIC)
+                    //.requestMatchers("/api/**").permitAll() // TODO
+                    //.requestMatchers("/public/**").permitAll()
+                    .anyRequest().hasAnyAuthority(RESOURCE_BASEAPP_PUBLIC)
             }
+            .logout { logout -> logout.logoutSuccessUrl("/") }
             .oauth2Login(Customizer.withDefaults())
             .build()
     }
@@ -43,8 +47,8 @@ class SpringSecurityConfiguration {
                 val claims = authority.idToken.claims
 
                 val realmAccess: Map<String, Any>? = claims.getMapByKey("realm_access")
-                val realmAccessRoles: List<String>? =
-                    realmAccess?.getListByKey("roles")?.map { "realm.$it" }
+                val realmAccessRoles: List<String>? = realmAccess
+                    ?.getListByKey("roles")?.map { role -> "realm.$role" }
 
                 val resourceAccess: Map<String, Any>? = claims.getMapByKey("resource_access")
                 val resourceAccessRoles: List<String>? = resourceAccess?.keys

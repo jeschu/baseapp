@@ -388,9 +388,20 @@
     "path" : "/baseapp-editor",
     "subGroups" : [ ],
     "attributes" : { },
-    "realmRoles" : [ "user" ],
+    "realmRoles" : [ ],
     "clientRoles" : {
       "baseapp" : [ "editor", "public" ]
+    }
+  }, {
+    "id" : "0d43a5e0-ffc1-4648-8168-bcb3a64dd1ee",
+    "name" : "baseapp-public",
+    "description" : "",
+    "path" : "/baseapp-public",
+    "subGroups" : [ ],
+    "attributes" : { },
+    "realmRoles" : [ ],
+    "clientRoles" : {
+      "baseapp" : [ "public" ]
     }
   } ],
   "defaultRole" : {
@@ -479,6 +490,29 @@
     "realmRoles" : [ "default-roles-baseapp" ],
     "notBefore" : 0,
     "groups" : [ "/baseapp-editor" ]
+  }, {
+    "id" : "c287ab9d-4f91-4fb7-9355-cc06f31b967a",
+    "username" : "public",
+    "firstName" : "Peter",
+    "lastName" : "Public",
+    "email" : "public@base.app",
+    "emailVerified" : true,
+    "enabled" : true,
+    "createdTimestamp" : 1777017577167,
+    "totp" : false,
+    "credentials" : [ {
+      "id" : "8d780d27-c58b-4c32-bbe1-03ff1ed5476e",
+      "type" : "password",
+      "userLabel" : "My password",
+      "createdDate" : 1777017750095,
+      "secretData" : "{\"value\":\"pMlcCK5P6uegmHi5T2bsPR0iFmD3Q9eVmZ3YkIA+5To=\",\"salt\":\"nCqCIZtui1wac/yzJTC4Ow==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":5,\"algorithm\":\"argon2\",\"additionalParameters\":{\"hashLength\":[\"32\"],\"memory\":[\"7168\"],\"type\":[\"id\"],\"version\":[\"1.3\"],\"parallelism\":[\"1\"]}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-baseapp" ],
+    "notBefore" : 0,
+    "groups" : [ "/baseapp-public" ]
   }, {
     "id" : "e0c550ba-d715-4ec4-8bb5-728fd701e7db",
     "username" : "service-account-baseapp",
@@ -1437,7 +1471,7 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-usermodel-attribute-mapper", "oidc-full-name-mapper", "oidc-address-mapper", "oidc-usermodel-property-mapper", "saml-role-list-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-user-property-mapper", "saml-user-attribute-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-usermodel-attribute-mapper", "saml-role-list-mapper", "oidc-usermodel-property-mapper", "saml-user-property-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-user-attribute-mapper", "oidc-full-name-mapper", "oidc-address-mapper" ]
       }
     }, {
       "id" : "c28ddb90-c3bb-48c8-89f4-32619309d8bc",
@@ -1453,7 +1487,7 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-address-mapper", "saml-user-attribute-mapper", "oidc-usermodel-property-mapper", "saml-role-list-mapper", "oidc-full-name-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-attribute-mapper", "saml-user-property-mapper" ]
+        "allowed-protocol-mapper-types" : [ "saml-role-list-mapper", "oidc-address-mapper", "saml-user-attribute-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-property-mapper", "oidc-usermodel-attribute-mapper", "oidc-full-name-mapper", "saml-user-property-mapper" ]
       }
     }, {
       "id" : "18f9aa27-d03a-4d06-a964-c06e7e05b3de",
